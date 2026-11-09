@@ -9,402 +9,532 @@
 <link rel="icon" href="/rgv-website-preview/assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="/rgv-website-preview/assets/rgv.css">
-<style>body { margin: 0; background: #FFFFFF; }</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: walking into a garden. Deep canopy greens at the gate, lighter sage clearings further in,
+   vintage fern engravings growing at the edges of every section, photos washed in green. */
+:root {
+  --night: #0C2619;      /* deepest canopy */
+  --deep: #0F3324;       /* main dark ground */
+  --moss: #1B4A35;       /* lifted dark section */
+  --forest: #096140;     /* brand primary */
+  --lime: #96C930;       /* brand accent from the logo canopy */
+  --sage: #A9C29A;       /* engravings, muted text on dark */
+  --clearing: #E6ECDB;   /* light section ground: pale sage, never white */
+  --clearing-2: #D8E2CB;
+  --cream: #F1F4E8;      /* text on dark */
+  --ink: #12261C;        /* text on light */
+  --ink-2: #3F5547;
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  --wrap: 1200px;
+  --gut: max(20px, env(safe-area-inset-left, 0px));
+  --gut-r: max(20px, env(safe-area-inset-right, 0px));
+  --sec: clamp(72px, 10vw, 136px);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--night); color: var(--cream); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-left: var(--gut); padding-right: var(--gut-r); position: relative; z-index: 2; }
+.serif { font-family: var(--serif); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -.02em; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(34px, 4.4vw, 54px); line-height: 1.08; }
+h3 { font-size: clamp(24px, 2.2vw, 30px); line-height: 1.15; }
+p { margin: 0; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--lime); display: inline-flex; align-items: center; gap: 12px; }
+.eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; opacity: .7; }
+.lead { font-size: clamp(18px, 1.5vw, 20px); line-height: 1.6; }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 999px; font-weight: 600; font-size: 15px; text-decoration: none; transition: background .3s, color .3s, transform .3s; }
+.btn--lime { background: var(--lime); color: var(--night); }
+.btn--lime:hover { background: var(--cream); }
+.btn--ghost { border: 1px solid rgba(241,244,232,.45); color: var(--cream); }
+.btn--ghost:hover { background: rgba(241,244,232,.1); }
+.btn--forest { background: var(--forest); color: var(--cream); }
+.btn--forest:hover { background: var(--deep); }
+.link { font-weight: 600; text-decoration: none; display: inline-flex; gap: 8px; align-items: center; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+
+/* botanical engravings, tinted through masks so every colour comes from the tokens */
+.bot { position: absolute; pointer-events: none; background: var(--tint, var(--sage)); -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; z-index: 1; }
+.bot--a { --m: url(assets/frond-a.webp); aspect-ratio: 580 / 594; }
+.bot--b { --m: url(assets/frond-b.webp); aspect-ratio: 640 / 402; }
+.bot--c { --m: url(assets/frond-c.webp); aspect-ratio: 640 / 527; }
+.bot--s { --m: url(assets/staghorn.webp); aspect-ratio: 1100 / 1189; }
+
+/* ---------- header ---------- */
+.top { position: absolute; inset: 0 0 auto; z-index: 20; padding-top: calc(env(safe-area-inset-top, 0px) + 22px); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.top .mainnav { display: flex; align-items: center; gap: 28px; }
+.top .mainnav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 2px; }
+.top .mainnav li { position: relative; }
+.top .mainnav a:not(.btn), .top .mainnav li > button { font: inherit; font-size: 15px; font-weight: 500; color: var(--cream); background: none; border: 0; padding: 10px 14px; border-radius: 10px; text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; opacity: .92; }
+.top .mainnav a:not(.btn):hover, .top .mainnav li > button:hover, .top .mainnav li > button[aria-expanded="true"] { color: var(--lime); background: rgba(241,244,232,.08); opacity: 1; }
+.top .mainnav li > button svg { width: 12px; height: 12px; transition: transform .2s; }
+.top .mainnav li > button[aria-expanded="true"] svg { transform: rotate(180deg); }
+.top .sub { position: absolute; top: calc(100% + 8px); left: 0; min-width: 320px; padding: 8px; background: var(--deep); border: 1px solid rgba(169,194,154,.25); border-radius: 16px; box-shadow: 0 24px 48px -20px rgba(0,0,0,.65); z-index: 30; }
+.top .sub[hidden] { display: none; }
+.top .mainnav .sub a:not(.btn) { display: block; width: auto; padding: 12px 14px; border-radius: 10px; border-bottom: 0; text-decoration: none; color: var(--cream); opacity: 1; }
+.top .mainnav .sub a:not(.btn):hover { background: rgba(241,244,232,.08); color: var(--cream); }
+.top .sub strong { display: block; font-weight: 600; font-size: 15.5px; }
+.top .sub span { display: block; font-size: 14px; color: var(--sage); margin-top: 2px; line-height: 1.45; }
+.top .burger { display: none; width: 48px; height: 48px; border-radius: 12px; border: 1px solid rgba(241,244,232,.35); background: rgba(12,38,25,.55); color: var(--cream); cursor: pointer; align-items: center; justify-content: center; margin-left: auto; }
+.top .burger svg { width: 22px; height: 22px; }
+.top img { height: 64px; width: auto; }
+@media (max-width: 980px) {
+  .top img { height: 48px; }
+  .top .burger { display: inline-flex; }
+  .top .mainnav { display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 16px; background: var(--night); border-top: 1px solid rgba(169,194,154,.2); padding: 12px var(--gut-r) 24px var(--gut); max-height: calc(100svh - 90px); overflow-y: auto; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); }
+  .top.is-open .mainnav { display: flex; }
+  .top .mainnav ul { flex-direction: column; align-items: stretch; gap: 0; }
+  .top .mainnav a:not(.btn), .top .mainnav li > button { width: 100%; justify-content: space-between; padding: 14px 6px; font-size: 17px; border-bottom: 1px solid rgba(169,194,154,.18); border-radius: 0; }
+  .top .sub { position: static; min-width: 0; box-shadow: none; border: 0; background: transparent; padding: 2px 0 8px 10px; }
+  .top .mainnav .btn { justify-content: center; }
+}
+
+/* ---------- hero: the garden gate ---------- */
+.gate { position: relative; min-height: min(100svh, 980px); display: flex; align-items: flex-end; overflow: hidden; background: var(--night); isolation: isolate; }
+.gate__photo { position: absolute; inset: -4% 0 0; background: url(assets/hero.webp) center 40% / cover; transform: scale(calc(1.08 + var(--p, 0) * .12)); transform-origin: 50% 60%; z-index: -2; }
+.gate::before { content: ""; position: absolute; inset: 0; z-index: -1;
+  background:
+    radial-gradient(120% 80% at 50% 20%, rgba(12,38,25,.15), rgba(12,38,25,.55) 60%, rgba(12,38,25,.92)),
+    linear-gradient(180deg, rgba(12,38,25,.55) 0%, rgba(15,51,36,.35) 35%, rgba(12,38,25,.96) 100%); }
+.gate .bot { --tint: rgba(169,194,154,.55); transition: transform .1s linear; }
+.gate .g1 { width: clamp(220px, 30vw, 440px); left: -6%; top: 9%; transform: translateX(calc(var(--p,0) * -45%)) rotate(-8deg) scale(calc(1 + var(--p,0) * .5)); }
+.gate .g2 { width: clamp(220px, 32vw, 480px); right: -8%; top: 4%; transform: translateX(calc(var(--p,0) * 45%)) rotate(14deg) scale(calc(1 + var(--p,0) * .5)); }
+.gate .g3 { width: clamp(300px, 46vw, 720px); right: -12%; bottom: -26%; --tint: rgba(150,201,48,.30); transform: translateY(calc(var(--p,0) * 18%)) scale(calc(1 + var(--p,0) * .3)); }
+@media (max-width: 700px) { .gate .g1 { width: 170px; top: 1%; left: -14%; --tint: rgba(169,194,154,.3); } .gate .g2 { width: 200px; top: 2%; right: -16%; --tint: rgba(169,194,154,.35); } .gate .g3 { width: 300px; bottom: -14%; right: -30%; } }
+.gate__inner { padding-block: 180px clamp(64px, 9vw, 120px); width: 100%; }
+.gate__text { max-width: 820px; display: grid; gap: 26px; }
+.gate h1 { font-size: clamp(46px, 7.2vw, 96px); line-height: 1.0; letter-spacing: -.03em; font-weight: 500; }
+.gate h1 em { font-style: italic; font-weight: 400; color: var(--sage); }
+.gate .lead { max-width: 58ch; color: rgba(241,244,232,.88); }
+.gate .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.gate__cue { margin-top: 56px; display: flex; align-items: center; gap: 14px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--sage); text-decoration: none; }
+.gate__cue span { width: 1px; height: 44px; background: linear-gradient(var(--sage), transparent); animation: drip 2.6s ease-in-out infinite; transform-origin: top; }
+@keyframes drip { 0%,100% { transform: scaleY(.4); opacity: .5 } 50% { transform: scaleY(1); opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .gate__cue span { animation: none; } }
+
+/* ---------- facts: the path markers ---------- */
+.facts { background: var(--night); padding-block: 8px 72px; position: relative; }
+.facts ul { list-style: none; margin: 0; padding: 32px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 32px; border-top: 1px solid rgba(169,194,154,.22); }
+.facts b { display: block; font-family: var(--serif); font-weight: 500; font-size: clamp(30px, 3vw, 40px); line-height: 1.1; color: var(--cream); margin-bottom: 8px; letter-spacing: -.02em; }
+.facts li { font-size: 15px; color: var(--sage); line-height: 1.5; }
+@media (max-width: 860px) { .facts ul { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+/* ---------- why gardeners ---------- */
+.why { background: var(--deep); padding-block: var(--sec); position: relative; overflow: hidden; }
+.why .bot--s { width: clamp(380px, 52vw, 760px); right: -10%; top: 50%; transform: translateY(-50%); --tint: rgba(169,194,154,.13); }
+.why__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 72px; align-items: start; }
+.why h2 { margin: 18px 0 26px; }
+.why h2 + p { color: rgba(241,244,232,.82); max-width: 54ch; }
+.tenets { display: grid; gap: 30px; padding-top: 12px; }
+.tenet { display: grid; grid-template-columns: 64px minmax(0,1fr); gap: 20px; align-items: start; }
+.ring { width: 64px; height: 64px; border-radius: 50%; border: 1px solid rgba(150,201,48,.45); display: grid; place-items: center; color: var(--lime); background: rgba(12,38,25,.4); }
+.ring svg { width: 28px; height: 28px; }
+.tenet h3 { font-size: 23px; margin-bottom: 6px; }
+.tenet p { color: var(--sage); font-size: 16px; }
+@media (max-width: 860px) { .why__grid { grid-template-columns: minmax(0,1fr); gap: 44px; } }
+
+/* ---------- three ways: into the clearing ---------- */
+.ways { background: var(--clearing); color: var(--ink); padding-block: var(--sec); position: relative; overflow: hidden; }
+.ways::before { content: ""; position: absolute; inset: 0 0 auto; height: 160px; background: linear-gradient(var(--deep), transparent); opacity: .08; }
+.ways .eyebrow { color: var(--forest); }
+.ways .bot--b { width: 380px; left: -90px; top: 40px; --tint: rgba(9,97,64,.16); transform: rotate(-20deg); }
+.ways .bot--c { width: 340px; right: -80px; bottom: 30px; --tint: rgba(9,97,64,.14); transform: rotate(160deg); }
+.ways__head { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 56px; align-items: end; margin-bottom: 56px; }
+.ways__head p { color: var(--ink-2); max-width: 52ch; }
+.ways__grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; }
+.way { background: var(--cream); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 24px 48px -32px rgba(12,38,25,.45); }
+.way__photo { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+.way__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s ease; filter: saturate(.85); }
+.way__photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(9,97,64,.12), rgba(12,38,25,.55)); mix-blend-mode: multiply; }
+.way:hover .way__photo img { transform: scale(1.05); }
+.way__photo span { position: absolute; left: 22px; bottom: 18px; z-index: 2; color: var(--cream); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+.way__body { padding: 26px 26px 30px; display: grid; gap: 12px; flex: 1; align-content: start; }
+.way__body small { color: var(--forest); font-weight: 600; font-size: 14px; }
+.way__body p { color: var(--ink-2); font-size: 16px; }
+.way__body .link { color: var(--forest); margin-top: 8px; justify-self: start; }
+@media (max-width: 960px) { .ways__head, .ways__grid { grid-template-columns: minmax(0,1fr); } .ways__head { gap: 20px; } }
+
+/* ---------- walk: the path (immersive band) ---------- */
+.walk { position: relative; min-height: 640px; display: flex; align-items: center; overflow: hidden; isolation: isolate; padding-block: var(--sec); }
+.walk__photo { position: absolute; inset: -12% 0; background: url(assets/path.webp) center / cover; z-index: -2; transform: translateY(calc(var(--q, 0) * 8%)); }
+.walk::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(12,38,25,.94) 0%, rgba(12,38,25,.78) 45%, rgba(12,38,25,.25) 100%); }
+.walk__text { max-width: 600px; display: grid; gap: 22px; }
+.walk h2 { font-size: clamp(34px, 4.2vw, 52px); }
+.walk p { color: rgba(241,244,232,.86); }
+.walk blockquote { margin: 10px 0 0; padding-left: 22px; border-left: 2px solid var(--lime); font-family: var(--serif); font-style: italic; font-size: clamp(21px, 2vw, 25px); line-height: 1.4; color: var(--cream); }
+
+/* ---------- lead gardener ---------- */
+.lead-g { background: var(--moss); padding-block: var(--sec); position: relative; overflow: hidden; }
+.lead-g .bot--a { width: 420px; left: -120px; bottom: -120px; --tint: rgba(169,194,154,.14); transform: rotate(25deg); }
+.lead-g__grid { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 72px; align-items: center; }
+.lead-g h2 { margin: 18px 0 22px; }
+.lead-g p { color: rgba(241,244,232,.84); max-width: 56ch; margin-bottom: 26px; }
+.duo { display: flex; gap: 28px; }
+.person { text-align: center; display: grid; gap: 4px; justify-items: center; }
+.person img { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-bottom: 14px; box-shadow: 0 0 0 1px rgba(150,201,48,.5), 0 0 0 10px rgba(12,38,25,.35); }
+.person b { font-family: var(--serif); font-weight: 500; font-size: 22px; }
+.person span { font-size: 14px; color: var(--sage); }
+@media (max-width: 960px) { .lead-g__grid { grid-template-columns: minmax(0,1fr); gap: 48px; } .person img { width: 150px; height: 150px; } .duo { gap: 20px; } }
+
+/* ---------- how we tend: a growing vine ---------- */
+.tend { background: var(--clearing); color: var(--ink); padding-block: var(--sec); position: relative; overflow: hidden; }
+.tend .eyebrow { color: var(--forest); }
+.tend__head { text-align: center; max-width: 720px; margin: 0 auto 72px; display: grid; gap: 18px; justify-items: center; }
+.tend__head p { color: var(--ink-2); }
+.vine { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 28px; }
+.vine svg.stem { position: absolute; left: 0; right: 0; top: 34px; width: 100%; height: 60px; z-index: 0; overflow: visible; }
+.vine svg.stem path { fill: none; stroke: var(--forest); stroke-width: 1.5; stroke-dasharray: 4 6; opacity: .55; }
+.step { position: relative; z-index: 1; display: grid; gap: 12px; justify-items: center; text-align: center; }
+.step .ring { width: 96px; height: 96px; background: var(--clearing); border-color: rgba(9,97,64,.45); color: var(--forest); }
+.step .ring svg { width: 36px; height: 36px; }
+.step small { font-family: var(--serif); font-style: italic; color: var(--forest); font-size: 17px; }
+.step h3 { font-size: 26px; }
+.step p { color: var(--ink-2); font-size: 16px; max-width: 26ch; }
+.tend .bot--s { width: 520px; left: 50%; bottom: -330px; transform: translateX(-50%); --tint: rgba(9,97,64,.10); }
+@media (max-width: 860px) { .vine { grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 48px; } .vine svg.stem { display: none; } }
+@media (max-width: 460px) { .vine { grid-template-columns: minmax(0,1fr); } }
+
+/* ---------- voices: under the canopy ---------- */
+.voices { position: relative; padding-block: var(--sec); overflow: hidden; isolation: isolate; }
+.voices::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(rgba(12,38,25,.9), rgba(12,38,25,.94)), url(assets/ferns.webp) center / cover; }
+.voices__head { display: grid; gap: 16px; margin-bottom: 56px; max-width: 640px; }
+.voices__head p { color: var(--sage); }
+.quotes { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 44px; }
+.quotes figure { margin: 0; display: grid; gap: 22px; align-content: start; padding-top: 26px; border-top: 1px solid rgba(169,194,154,.3); }
+.quotes blockquote { margin: 0; font-family: var(--serif); font-size: 21px; line-height: 1.45; }
+.quotes blockquote::before { content: "\201C"; display: block; font-size: 64px; line-height: .6; color: var(--lime); margin-bottom: 8px; }
+.quotes figcaption b { display: block; font-weight: 600; }
+.quotes figcaption span { color: var(--sage); font-size: 15px; }
+@media (max-width: 900px) { .quotes { grid-template-columns: minmax(0,1fr); gap: 36px; } }
+
+/* ---------- gardens we've tended ---------- */
+.work { background: var(--clearing-2); color: var(--ink); padding-block: var(--sec); position: relative; overflow: hidden; }
+.work .eyebrow { color: var(--forest); }
+.work__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 44px; }
+.work__head h2 { margin-top: 16px; }
+.work__head .link { color: var(--forest); }
+.work__grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 24px; }
+.case { display: grid; grid-template-columns: 200px minmax(0,1fr); background: var(--cream); border-radius: 20px; overflow: hidden; text-decoration: none; }
+.case img { width: 100%; height: 100%; object-fit: cover; min-height: 220px; }
+.case div { padding: 28px; display: grid; gap: 8px; align-content: center; }
+.case small { color: var(--forest); font-weight: 600; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+.case p { color: var(--ink-2); font-size: 15px; }
+.work .bot--a { width: 300px; right: -60px; top: -50px; --tint: rgba(9,97,64,.12); transform: rotate(200deg); }
+@media (max-width: 860px) { .work__grid { grid-template-columns: minmax(0,1fr); } .case { grid-template-columns: 130px minmax(0,1fr); } }
+
+/* ---------- the gardeners ---------- */
+.team { background: var(--deep); padding-block: var(--sec); position: relative; overflow: hidden; }
+.team__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 56px; }
+.team__head h2 { margin-top: 16px; }
+.team__head p { color: var(--sage); max-width: 42ch; }
+.team__grid { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 24px; }
+.team .person img { width: 100%; height: auto; aspect-ratio: 1; max-width: 168px; box-shadow: 0 0 0 1px rgba(150,201,48,.35); }
+.team .person b { font-size: 19px; }
+.team .bot--c { width: 360px; left: -100px; top: -80px; --tint: rgba(169,194,154,.10); transform: rotate(-30deg); }
+@media (max-width: 960px) { .team__grid { grid-template-columns: repeat(3, minmax(0,1fr)); row-gap: 36px; } }
+@media (max-width: 480px) { .team__grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+/* ---------- questions ---------- */
+.faq { background: var(--clearing); color: var(--ink); padding-block: var(--sec); }
+.faq .eyebrow { color: var(--forest); }
+.faq__grid { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: 72px; }
+.faq__grid > div:first-child p { color: var(--ink-2); margin-top: 20px; }
+.faq details { border-top: 1px solid rgba(18,38,28,.18); padding: 22px 0; }
+.faq details:last-child { border-bottom: 1px solid rgba(18,38,28,.18); }
+.faq summary { cursor: pointer; list-style: none; font-family: var(--serif); font-size: 22px; font-weight: 500; display: flex; justify-content: space-between; gap: 20px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-family: var(--sans); font-weight: 400; color: var(--forest); font-size: 26px; line-height: 1; transition: transform .3s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { color: var(--ink-2); margin-top: 12px; max-width: 62ch; }
+@media (max-width: 860px) { .faq__grid { grid-template-columns: minmax(0,1fr); gap: 32px; } }
+
+/* ---------- closing: the misty hill ---------- */
+.cta { position: relative; padding-block: clamp(120px, 14vw, 200px); text-align: center; overflow: hidden; isolation: isolate; }
+.cta::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(12,38,25,.55), rgba(12,38,25,.82)), url(assets/mist.webp) center / cover; }
+.cta .wrap { display: grid; gap: 24px; justify-items: center; max-width: 820px; }
+.cta h2 { font-size: clamp(40px, 5.6vw, 72px); }
+.cta p { color: rgba(241,244,232,.88); max-width: 54ch; }
+.cta .bot--b { width: 420px; left: 50%; bottom: -150px; transform: translateX(-50%); --tint: rgba(150,201,48,.28); }
+
+/* ---------- footer ---------- */
+.foot { background: var(--night); padding-block: 72px 40px; font-size: 15px; color: var(--sage); }
+.foot__grid { display: grid; grid-template-columns: minmax(0,1.4fr) repeat(3, minmax(0,1fr)); gap: 40px; }
+.foot img { height: 64px; width: auto; margin-bottom: 18px; }
+.foot h4 { color: var(--cream); font-size: 14px; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 14px; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.foot a { text-decoration: none; }
+.foot a:hover { color: var(--lime); }
+.foot__base { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(169,194,154,.18); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; }
+@media (max-width: 860px) { .foot__grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .foot__grid > div:first-child { grid-column: 1 / -1; } }
+
+/* gentle reveal: content is visible at rest, it only drifts up a little as it arrives */
+.rise { transition: transform 1s cubic-bezier(.2,.7,.2,1), opacity 1s; }
+.js .rise.is-waiting { transform: translateY(24px); opacity: .001; }
+@media (prefers-reduced-motion: reduce) { .js .rise.is-waiting { transform: none; opacity: 1; } .gate__photo, .gate .bot, .walk__photo { transform: none !important; } }
+</style>
+
 </head>
 <body>
-<div class="rgv rgv-site-header">
-  <a class="rgv-skip" href="#rgv-main">Skip to content</a>
-  <header class="rgv-header" id="rgv-header">
-    <div class="rgv-wrap rgv-header__bar">
-      <a class="rgv-header__logo" href="/rgv-website-preview/" aria-label="Revive Global Ventures, home">
-        <img src="/rgv-website-preview/assets/img/logo.png" alt="Revive Global Ventures" width="116" height="48">
-      </a>
-      <nav class="rgv-nav" id="rgv-nav" aria-label="Main">
-        <ul class="rgv-nav__list">
-          <li class="rgv-nav__item">
-            <button class="rgv-nav__link" type="button" aria-expanded="false" aria-controls="rgv-menu-services" data-rgv-menu>How we help
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
-            </button>
-            <div class="rgv-menu" id="rgv-menu-services" hidden>
-              <a href="/rgv-website-preview/founder-alignment/"><strong>The Roots</strong><span>Founder alignment &amp; strategy: your life first, then the plan</span></a>
-              <a href="/rgv-website-preview/delivery-teams/"><strong>The Garden Team</strong><span>Flexible delivery teams: skilled hands, when you need them</span></a>
-              <a href="/rgv-website-preview/commercialization-engine/"><strong>The Greenhouse</strong><span>AI commercialization engine: steady, measured growth</span></a>
-            </div>
-          </li>
-          <li><a class="rgv-nav__link" href="/rgv-website-preview/how-we-work/">How we work</a></li>
-          <li><a class="rgv-nav__link" href="/rgv-website-preview/engagements/">Our work</a></li>
-          <li><a class="rgv-nav__link" href="/rgv-website-preview/revive-nepal/">Revive Nepal</a></li>
-          <li class="rgv-nav__item">
-            <button class="rgv-nav__link" type="button" aria-expanded="false" aria-controls="rgv-menu-about" data-rgv-menu>About
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
-            </button>
-            <div class="rgv-menu" id="rgv-menu-about" hidden>
-              <a href="/rgv-website-preview/about/"><strong>The gardeners</strong><span>Who we are and why we work this way</span></a>
-              <a href="/rgv-website-preview/authors/"><strong>For Authors</strong><span>Support for writers and thought leaders</span></a>
-              <a href="/rgv-website-preview/blog/"><strong>Blog</strong><span>Notes and ideas from the team</span></a>
-            </div>
-          </li>
-        </ul>
-        <a class="rgv-btn rgv-btn--primary" href="/rgv-website-preview/contacts/">Let's talk</a>
-      </nav>
-      <button class="rgv-burger" type="button" id="rgv-burger" aria-expanded="false" aria-controls="rgv-nav" aria-label="Open menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
+<header class="top">
+  <div class="wrap">
+    <a href="https://hashtagbodhi.github.io/rgv-website-preview/" aria-label="Revive Global Ventures home"><img src="assets/logo-white.png" alt="Revive Global Ventures" width="570" height="191"></a>
+    <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="mainnav" id="mainnav" aria-label="Main">
+      <ul>
+        <li class="has-sub"><button type="button" aria-expanded="false" aria-controls="m-help" data-menu>How we help <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+          <div class="sub" id="m-help" hidden><a href="https://hashtagbodhi.github.io/rgv-website-preview/founder-alignment/"><strong>The Roots</strong><span>Founder alignment &amp; strategy: your life first, then the plan</span></a><a href="https://hashtagbodhi.github.io/rgv-website-preview/delivery-teams/"><strong>The Garden Team</strong><span>Flexible delivery teams: skilled hands, when you need them</span></a><a href="https://hashtagbodhi.github.io/rgv-website-preview/commercialization-engine/"><strong>The Greenhouse</strong><span>AI commercialization engine: steady, measured growth</span></a></div></li>
+        <li><a href="https://hashtagbodhi.github.io/rgv-website-preview/how-we-work/">How we work</a></li>
+        <li><a href="https://hashtagbodhi.github.io/rgv-website-preview/engagements/">Our work</a></li>
+        <li><a href="https://hashtagbodhi.github.io/rgv-website-preview/revive-nepal/">Revive Nepal</a></li>
+        <li class="has-sub"><button type="button" aria-expanded="false" aria-controls="m-about" data-menu>About <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+          <div class="sub" id="m-about" hidden><a href="https://hashtagbodhi.github.io/rgv-website-preview/about/"><strong>The gardeners</strong><span>Who we are and why we work this way</span></a><a href="https://hashtagbodhi.github.io/rgv-website-preview/authors/"><strong>For Authors</strong><span>Support for writers and thought leaders</span></a><a href="https://hashtagbodhi.github.io/rgv-website-preview/blog/"><strong>Blog</strong><span>Notes and ideas from the team</span></a></div></li>
+      </ul>
+      <a class="btn btn--lime" href="https://hashtagbodhi.github.io/rgv-website-preview/contacts/">Let's talk</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- the gate -->
+  <section class="gate" id="gate" aria-labelledby="h1">
+    <div class="gate__photo" aria-hidden="true"></div>
+    <div class="bot bot--a g1" aria-hidden="true"></div>
+    <div class="bot bot--c g2" aria-hidden="true"></div>
+    <div class="bot bot--s g3" aria-hidden="true"></div>
+    <div class="wrap gate__inner">
+      <div class="gate__text">
+        <p class="eyebrow">Gardeners for founders</p>
+        <h1 id="h1">Grow a business that <em>nourishes</em> the life you want.</h1>
+        <p class="lead">We're gardeners at heart. We help you get clear on what you want from life, then tend your business with coaching, skilled hands and smart technology, so it grows in a way that gives back.</p>
+        <div class="btns"><a class="btn btn--lime" href="https://hashtagbodhi.github.io/rgv-website-preview/contacts/">Let's talk</a><a class="btn btn--ghost" href="https://hashtagbodhi.github.io/rgv-website-preview/how-we-work/">How we tend a business</a></div>
+      </div>
     </div>
-  </header>
-</div>
+  </section>
 
-<div class="rgv" id="rgv-main">
-
-<section class="rgv-heroC" data-rgv-slides aria-roledescription="carousel" aria-label="Highlights">
-  <div class="rgv-heroC__slide is-active" aria-hidden="false"><img src="/rgv-website-preview/assets/img/e_outdoors.jpg" alt="" width="1800" height="1200"></div>
-  <div class="rgv-heroC__slide" aria-hidden="true"><img src="/rgv-website-preview/assets/img/e_founder.jpg" alt="" width="1800" height="1200" loading="lazy"></div>
-  <div class="rgv-heroC__slide" aria-hidden="true"><img src="/rgv-website-preview/assets/img/e_coffee.jpg" alt="" width="1800" height="1200" loading="lazy"></div>
-  <div class="rgv-wrap rgv-heroC__inner">
-    <p class="rgv-heroC__kicker">Gardeners for founders and the businesses they grow</p>
-    <h1 class="rgv-display">Grow a business that nourishes the life you want.</h1>
-    <p class="rgv-lead">We're gardeners at heart. We help you get clear on what you want from life, then tend your business with coaching, skilled hands and smart technology, so it grows in a way that gives back.</p>
-    <div class="rgv-btns">
-      <a class="rgv-btn rgv-btn--lime" href="/rgv-website-preview/contacts/">Let's talk</a>
-      <a class="rgv-btn rgv-btn--outline-light" href="/rgv-website-preview/how-we-work/">How we tend a business</a>
-    </div>
-  </div>
-  <div class="rgv-wrap rgv-heroC__bar">
-    <div class="rgv-heroC__tabs"><button class="rgv-heroC__tab" type="button" data-i="0" aria-current="true"><strong>The life you want</strong><span>Your priorities come first</span></button><button class="rgv-heroC__tab" type="button" data-i="1"><strong>A business that serves it</strong><span>Tended with care, season by season</span></button><button class="rgv-heroC__tab" type="button" data-i="2"><strong>Someone in your corner</strong><span>A lead gardener who knows you</span></button></div>
-    <button class="rgv-heroC__pause" type="button" aria-label="Pause slideshow"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg></button>
-  </div>
-</section>
-<script>
-(function () {
-  document.querySelectorAll('[data-rgv-slides]').forEach(function (root) {
-    if (root.__rgv) return; root.__rgv = true;
-    var slides = root.querySelectorAll('.rgv-heroC__slide'), tabs = root.querySelectorAll('.rgv-heroC__tab'), btn = root.querySelector('.rgv-heroC__pause');
-    var i = 0, ms = 6000, timer = null, reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var PAUSE = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>';
-    var PLAY = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>';
-    root.style.setProperty('--rgv-slide', ms / 1000 + 's');
-    function show(n) {
-      i = (n + slides.length) % slides.length;
-      slides.forEach(function (s, k) { s.classList.toggle('is-active', k === i); s.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
-      tabs.forEach(function (t, k) { t.removeAttribute('aria-current'); if (k === i) { void t.offsetWidth; t.setAttribute('aria-current', 'true'); } });
-    }
-    function setBtn(playing) { btn.innerHTML = playing ? PAUSE : PLAY; btn.setAttribute('aria-label', playing ? 'Pause slideshow' : 'Play slideshow'); }
-    function stop() { if (timer) clearInterval(timer); timer = null; }
-    function play() { stop(); root.classList.remove('is-paused'); timer = setInterval(function () { show(i + 1); }, ms); setBtn(true); }
-    function pause() { stop(); root.classList.add('is-paused'); setBtn(false); }
-    tabs.forEach(function (t) { t.addEventListener('click', function () { show(+t.dataset.i); if (timer) play(); }); });
-    btn.addEventListener('click', function () { timer ? pause() : play(); });
-    if (reduce) pause(); else play();
-  });
-})();
-</script>
-
-<section class="rgv-facts-band" aria-label="Experience behind every garden we tend">
-  <div class="rgv-wrap">
-    <dl class="rgv-facts" aria-label="Experience behind every engagement">
-      <div class="rgv-fact"><dt class="rgv-fact__fig">GE Capital</dt><dd class="rgv-fact__cap">Senior Vice President experience in commercial and industrial finance</dd></div>
-      <div class="rgv-fact"><dt class="rgv-fact__fig">$1.3M</dt><dd class="rgv-fact__cap">in annual sales within six months at a venture-backed startup</dd></div>
-      <div class="rgv-fact"><dt class="rgv-fact__fig">28%</dt><dd class="rgv-fact__cap">operating margin by month seven at Vihara Sanctuary, Thailand</dd></div>
-      <div class="rgv-fact"><dt class="rgv-fact__fig">25 years</dt><dd class="rgv-fact__cap">of hands-on sourcing experience across China and Southeast Asia</dd></div>
-    </dl>
-  </div>
-</section>
-
-<section class="rgv-section" aria-labelledby="rgv-why-h">
-  <div class="rgv-wrap rgv-why">
-    <figure class="rgv-frame rgv-frame--tall"><img src="/rgv-website-preview/assets/img/e_drafting.jpg" alt="Hands sketching plans by hand on a large sheet of paper" width="1000" height="1250" loading="lazy"></figure>
-    <div class="rgv-stack rgv-stack--lg">
-      <p class="rgv-label">Why gardeners?</p>
-      <h2 class="rgv-h2" id="rgv-why-h">A gardener doesn't force a plant to grow. They create the conditions for it to thrive.</h2>
-      <p class="rgv-p">That's how we work with founders. We don't arrive with a template and a big invoice. We get to know you, prepare the ground, bring the right care at the right time, and stay patient while things take root.</p>
-      <ul class="rgv-tenets">
-        <li><span class="rgv-tenet__icon"><svg class="rgv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><div><strong>Your life comes first</strong><span>Your values and priorities are the soil. The business grows from there.</span></div></li>
-        <li><span class="rgv-tenet__icon"><svg class="rgv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg></span><div><strong>Steady, honest care</strong><span>Regular attention and straight talk, not a report that sits in a drawer.</span></div></li>
-        <li><span class="rgv-tenet__icon"><svg class="rgv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 19a4 4 0 0 1-2.24-7.32A3.5 3.5 0 0 1 9 6.03V6a3 3 0 1 1 6 0v.04a3.5 3.5 0 0 1 3.24 5.65A4 4 0 0 1 16 19Z"/><path d="M12 19v3"/></svg></span><div><strong>Growth that lasts</strong><span>Businesses that feed their founders, teams and communities for years.</span></div></li>
+  <section class="facts" aria-label="Experience">
+    <div class="wrap">
+      <ul>
+        <li class="rise"><b>GE Capital</b>Senior Vice President experience in commercial and industrial finance</li>
+        <li class="rise"><b>$1.3M</b>in annual sales within six months at a venture-backed startup</li>
+        <li class="rise"><b>28%</b>operating margin by month seven at Vihara Sanctuary, Thailand</li>
+        <li class="rise"><b>25 years</b>of hands-on sourcing across China and Southeast Asia</li>
       </ul>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section rgv-section--mint" aria-labelledby="rgv-ways-h">
-  <div class="rgv-wrap">
-    <div class="rgv-intro">
-      <h2 class="rgv-h2" id="rgv-ways-h">Three ways we help your business grow</h2>
-      <p class="rgv-lead">Use one, or let them work together. Every garden we tend has a lead gardener who knows you well and brings in what's needed, when it's needed.</p>
+  <!-- why gardeners -->
+  <section class="why" id="why" aria-labelledby="why-h">
+    <div class="bot bot--s" aria-hidden="true"></div>
+    <div class="wrap why__grid">
+      <div class="rise">
+        <p class="eyebrow">Why gardeners?</p>
+        <h2 id="why-h">A gardener doesn't force a plant to grow. They create the conditions for it to thrive.</h2>
+        <p class="lead">That's how we work with founders. We don't arrive with a template and a big invoice. We get to know you, prepare the ground, bring the right care at the right time, and stay patient while things take root.</p>
+      </div>
+      <div class="tenets">
+        <div class="tenet rise"><span class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.050 3 5.5l7 7Z"/></svg></span><div><h3>Your life comes first</h3><p>Your values and priorities are the soil. The business grows from there.</p></div></div>
+        <div class="tenet rise"><span class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg></span><div><h3>Steady, honest care</h3><p>Regular attention and straight talk, not a report that sits in a drawer.</p></div></div>
+        <div class="tenet rise"><span class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 19a4 4 0 0 1-2.24-7.32A3.5 3.5 0 0 1 9 6.03V6a3 3 0 1 1 6 0v.04a3.5 3.5 0 0 1 3.24 5.65A4 4 0 0 1 16 19Z"/><path d="M12 19v3"/></svg></span><div><h3>Growth that lasts</h3><p>Businesses that feed their founders, teams and communities for years.</p></div></div>
+      </div>
     </div>
-    <div class="rgv-ways">
-      <article class="rgv-way">
-        <figure class="rgv-frame"><img src="/rgv-website-preview/assets/img/e_home.jpg" alt="" width="900" height="1100" loading="lazy"></figure>
-        <div class="rgv-stack">
-          <p class="rgv-way__name">The Roots</p>
-          <h3 class="rgv-h3">Founder alignment &amp; strategy</h3>
-          <p class="rgv-small">Every healthy business grows from healthy roots: you. We start with your life, your priorities and what you want the business to give you, then shape a strategy that serves it.</p>
-          <a class="rgv-link" href="/rgv-website-preview/founder-alignment/">Explore the Roots</a>
-        </div>
-      </article>
-      <article class="rgv-way">
-        <figure class="rgv-frame"><img src="/rgv-website-preview/assets/img/e_team.jpg" alt="" width="900" height="1100" loading="lazy"></figure>
-        <div class="rgv-stack">
-          <p class="rgv-way__name">The Garden Team</p>
-          <h3 class="rgv-h3">Flexible delivery teams</h3>
-          <p class="rgv-small">Skilled hands when you need them. Strategists, designers, developers and marketers from our network, led by your lead gardener, so you don't have to hire or juggle contractors.</p>
-          <a class="rgv-link" href="/rgv-website-preview/delivery-teams/">Meet the Garden Team</a>
-        </div>
-      </article>
-      <article class="rgv-way">
-        <figure class="rgv-frame"><img src="/rgv-website-preview/assets/img/e_dashboard.jpg" alt="" width="900" height="1100" loading="lazy"></figure>
-        <div class="rgv-stack">
-          <p class="rgv-way__name">The Greenhouse</p>
-          <h3 class="rgv-h3">AI commercialization engine</h3>
-          <p class="rgv-small">A warm, measured place for growth. AI tools keep your marketing channels watered and measured; our people watch over them and prune what isn't working.</p>
-          <a class="rgv-link" href="/rgv-website-preview/commercialization-engine/">Step into the Greenhouse</a>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section" aria-labelledby="rgv-lead-h">
-  <div class="rgv-wrap rgv-split">
-    <div class="rgv-stack rgv-stack--lg">
-      <p class="rgv-label">Your lead gardener</p>
-      <h2 class="rgv-h2" id="rgv-lead-h">One person who knows your garden, instead of a dozen contractors.</h2>
-      <p class="rgv-p">Joshua or Steve will walk with you from the first conversation. They help you decide what to grow first, bring in the right people and tools, and keep an eye on how everything is doing. Help grows or shrinks with the season you're in.</p>
-      <div><a class="rgv-link" href="/rgv-website-preview/about/">Meet the gardeners</a></div>
+  <!-- three ways -->
+  <section class="ways" id="ways" aria-labelledby="ways-h">
+    <div class="bot bot--b" aria-hidden="true"></div>
+    <div class="bot bot--c" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="ways__head rise">
+        <div><p class="eyebrow">How we help</p><h2 id="ways-h" style="margin-top:16px">Three ways we help your business grow</h2></div>
+        <p class="lead">Use one, or let them work together. Every garden we tend has a lead gardener who knows you well and brings in what's needed, when it's needed.</p>
+      </div>
+      <div class="ways__grid">
+        <article class="way rise">
+          <div class="way__photo"><img src="assets/seedlings.webp" alt="Hands planting seedlings in a tray" loading="lazy"><span>Founder alignment &amp; strategy</span></div>
+          <div class="way__body"><h3>The Roots</h3><p>Every healthy business grows from healthy roots: you. We start with your life, your priorities and what you want the business to give you, then shape a strategy that serves it.</p><a class="link" href="https://hashtagbodhi.github.io/rgv-website-preview/founder-alignment/">Explore the Roots</a></div>
+        </article>
+        <article class="way rise">
+          <div class="way__photo"><img src="assets/pruning.webp" alt="Gloved hands pruning a shrub" loading="lazy"><span>Flexible delivery teams</span></div>
+          <div class="way__body"><h3>The Garden Team</h3><p>Skilled hands when you need them. Strategists, designers, developers and marketers from our network, led by your lead gardener, so you don't have to hire or juggle contractors.</p><a class="link" href="https://hashtagbodhi.github.io/rgv-website-preview/delivery-teams/">Meet the Garden Team</a></div>
+        </article>
+        <article class="way rise">
+          <div class="way__photo"><img src="assets/water.webp" alt="Water falling from a watering can onto young plants" loading="lazy"><span>AI commercialization engine</span></div>
+          <div class="way__body"><h3>The Greenhouse</h3><p>A warm, measured place for growth. AI tools keep your marketing channels watered and measured; our people watch over them and prune what isn't working.</p><a class="link" href="https://hashtagbodhi.github.io/rgv-website-preview/commercialization-engine/">Step into the Greenhouse</a></div>
+        </article>
+      </div>
     </div>
-    <div class="rgv-duo-portraits">
-      <figure class="rgv-portrait"><img src="/rgv-website-preview/assets/img/joshua.jpg" alt="Joshua Willig" width="480" height="600" loading="lazy"><figcaption><strong>Joshua Willig</strong><span>Founder &amp; lead gardener</span></figcaption></figure>
-      <figure class="rgv-portrait"><img src="/rgv-website-preview/assets/img/steve.jpg" alt="Stephen (Steve) Lewin" width="480" height="600" loading="lazy"><figcaption><strong>Steve Lewin</strong><span>Partner &amp; lead gardener</span></figcaption></figure>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section rgv-section--deep" aria-labelledby="rgv-feel-h">
-  <div class="rgv-wrap rgv-split">
-    <figure class="rgv-frame rgv-frame--tall"><img src="/rgv-website-preview/assets/img/conversation.jpg" alt="Two women in a relaxed one-to-one conversation at a small table" width="1000" height="1250" loading="lazy"></figure>
-    <div class="rgv-stack rgv-stack--lg">
-      <h2 class="rgv-label" id="rgv-feel-h">What it feels like to work with us</h2>
-      <blockquote class="rgv-quote">Founders carry a lot, and often have few people to talk to openly. We want you to feel you have someone in your corner.</blockquote>
-      <p class="rgv-p">We've run businesses ourselves, so we know the pressure of being expected to have every answer. You can talk to us about your life as openly as your business. Warm, personal and down-to-earth, always.</p>
+  <!-- the path -->
+  <section class="walk" id="walk" aria-labelledby="walk-h">
+    <div class="walk__photo" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="walk__text rise">
+        <p class="eyebrow">What it feels like</p>
+        <h2 id="walk-h">Someone in your corner, for the whole walk.</h2>
+        <p class="lead">Founders carry a lot, and often have few people to talk to openly. We've run businesses ourselves, so we know the pressure of being expected to have every answer.</p>
+        <blockquote>You can talk to us about your life as openly as your business. Warm, personal and down-to-earth, always.</blockquote>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section" aria-labelledby="rgv-grow-h">
-  <div class="rgv-wrap">
-    <div class="rgv-intro">
-      <h2 class="rgv-h2" id="rgv-grow-h">How we tend a business</h2>
-      <p class="rgv-lead">Four steps, repeated season after season as your business grows.</p>
+  <!-- lead gardener -->
+  <section class="lead-g" aria-labelledby="lg-h">
+    <div class="bot bot--a" aria-hidden="true"></div>
+    <div class="wrap lead-g__grid">
+      <div class="rise">
+        <p class="eyebrow">Your lead gardener</p>
+        <h2 id="lg-h">One person who knows your garden, instead of a dozen contractors.</h2>
+        <p class="lead">Joshua or Steve will walk with you from the first conversation. They help you decide what to grow first, bring in the right people and tools, and keep an eye on how everything is doing. Help grows or shrinks with the season you're in.</p>
+        <a class="btn btn--ghost" href="https://hashtagbodhi.github.io/rgv-website-preview/about/">Meet the gardeners</a>
+      </div>
+      <div class="duo rise">
+        <div class="person"><img src="assets/team-joshua-willig.webp" alt="Joshua Willig" loading="lazy"><b>Joshua Willig</b><span>Founder &amp; lead gardener</span></div>
+        <div class="person"><img src="assets/team-steve-lewin.webp" alt="Steve Lewin" loading="lazy"><b>Steve Lewin</b><span>Partner &amp; lead gardener</span></div>
+      </div>
     </div>
-    <ol class="rgv-grow">
-      <li class="rgv-grow__step"><span class="rgv-grow__icon"><svg class="rgv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg></span><p class="rgv-grow__n">1</p><h3 class="rgv-h3">Listen</h3><p class="rgv-small">We get to know you, your business, the ground it's growing in and what you want it to become.</p></li>
-      <li class="rgv-grow__step"><span class="rgv-grow__icon"><svg class="rgv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg></span><p class="rgv-grow__n">2</p><h3 class="rgv-h3">Plant</h3><p class="rgv-small">Together we choose what to grow first and why, and what it will take.</p></li>
-      <li class="rgv-grow__step"><span class="rgv-grow__icon"><svg class="rgv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><p class="rgv-grow__n">3</p><h3 class="rgv-h3">Tend</h3><p class="rgv-small">Your lead gardener brings in the right people, tools and routines, and does the work alongside you.</p></li>
-      <li class="rgv-grow__step"><span class="rgv-grow__icon"><svg class="rgv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 19a4 4 0 0 1-2.24-7.32A3.5 3.5 0 0 1 9 6.03V6a3 3 0 1 1 6 0v.04a3.5 3.5 0 0 1 3.24 5.65A4 4 0 0 1 16 19Z"/><path d="M12 19v3"/></svg></span><p class="rgv-grow__n">4</p><h3 class="rgv-h3">Grow</h3><p class="rgv-small">We look at what's thriving, prune what isn't, and plan the next season.</p></li>
-    </ol>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section rgv-section--mint" aria-labelledby="rgv-voices-h">
-  <div class="rgv-wrap">
-    <div class="rgv-intro">
-      <h2 class="rgv-h2" id="rgv-voices-h">From the founders we work with</h2>
-      <p class="rgv-lead">A few words from people whose work we've helped grow.</p>
+  <!-- how we tend -->
+  <section class="tend" id="tend" aria-labelledby="tend-h">
+    <div class="bot bot--s" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="tend__head rise">
+        <p class="eyebrow">How we tend a business</p>
+        <h2 id="tend-h">Four steps, repeated season after season.</h2>
+        <p class="lead">As your business grows, we come back round: listen again, plant what's next, tend it, and see what's thriving.</p>
+      </div>
+      <div class="vine">
+        <svg class="stem" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M60 30 C 200 -10, 330 70, 450 30 S 700 -10, 750 30 S 1000 70, 1140 30"/></svg>
+        <div class="step rise"><span class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg></span><small>Season one</small><h3>Listen</h3><p>We get to know you, your business, the ground it's growing in and what you want it to become.</p></div>
+        <div class="step rise"><span class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.900-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg></span><small>Season two</small><h3>Plant</h3><p>Together we choose what to grow first and why, and what it will take.</p></div>
+        <div class="step rise"><span class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><small>Season three</small><h3>Tend</h3><p>Your lead gardener brings in the right people, tools and routines, and does the work alongside you.</p></div>
+        <div class="step rise"><span class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 19a4 4 0 0 1-2.24-7.32A3.5 3.5 0 0 1 9 6.03V6a3 3 0 1 1 6 0v.04a3.5 3.5 0 0 1 3.24 5.65A4 4 0 0 1 16 19Z"/><path d="M12 19v3"/></svg></span><small>Season four</small><h3>Grow</h3><p>We look at what's thriving, prune what isn't, and plan the next season.</p></div>
+      </div>
     </div>
-    <div class="rgv-voices">
-      <figure class="rgv-voice">
-        <blockquote>Revive Global Ventures helped bring clarity and structure to years of work and research. Their ability to translate complex ideas into a cohesive strategy has been invaluable.</blockquote>
-        <figcaption><strong>Dr. Jane Horan</strong><span>The Horan Group</span></figcaption>
-      </figure>
-      <figure class="rgv-voice">
-        <blockquote>They absolutely overdelivered. The speed, insights and strategy saved me so much time and money, and gave me information I would not have been able to access on my own.</blockquote>
-        <figcaption><strong>Dr. Martin L. Seldman</strong><span>Leadership advisor and author</span></figcaption>
-      </figure>
-      <figure class="rgv-voice">
-        <blockquote>They brought structure and clarity to my work in a way that made it far more accessible and actionable, and positioned it for real-world impact.</blockquote>
-        <figcaption><strong>Dr. Dorothy Marcic</strong><span>Dr. Dorothy Productions</span></figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section" aria-labelledby="rgv-work-h">
-  <div class="rgv-wrap">
-    <div class="rgv-intro">
-      <h2 class="rgv-h2" id="rgv-work-h">Gardens we've tended</h2>
-      <p class="rgv-lead">Brands, companies and authors we've helped grow. <a class="rgv-link" href="/rgv-website-preview/engagements/">See all our work</a></p>
+  <!-- voices -->
+  <section class="voices" aria-labelledby="v-h">
+    <div class="wrap">
+      <div class="voices__head rise"><p class="eyebrow">Client voices</p><h2 id="v-h">From the founders we work with</h2><p>A few words from people whose work we've helped grow.</p></div>
+      <div class="quotes">
+        <figure class="rise"><blockquote>Revive Global Ventures helped bring clarity and structure to years of work and research. Their ability to translate complex ideas into a cohesive strategy has been invaluable.</blockquote><figcaption><b>Dr. Jane Horan</b><span>The Horan Group</span></figcaption></figure>
+        <figure class="rise"><blockquote>They absolutely overdelivered. The speed, insights and strategy saved me so much time and money, and gave me information I would not have been able to access on my own.</blockquote><figcaption><b>Dr. Martin L. Seldman</b><span>Leadership advisor and author</span></figcaption></figure>
+        <figure class="rise"><blockquote>They brought structure and clarity to my work in a way that made it far more accessible and actionable, and positioned it for real-world impact.</blockquote><figcaption><b>Dr. Dorothy Marcic</b><span>Dr. Dorothy Productions</span></figcaption></figure>
+      </div>
     </div>
-    <div class="rgv-work">
-      <article class="rgv-work__item">
-        <div class="rgv-work__band rgv-logo-panel rgv-logo-panel--vagari"><img src="/rgv-website-preview/assets/img/logo_vagari.jpg" alt="Vagari Vati logo" width="800" height="1000" loading="lazy"></div>
-        <div class="rgv-work__body">
-          <span class="rgv-work__tag">Streetwear brand</span>
-          <h3 class="rgv-h3">Vagari Vati</h3>
-          <a class="rgv-link" href="/rgv-website-preview/vagari-vati-revive-global-ventures/">Read the Vagari Vati case study</a>
-        </div>
-      </article>
-      <article class="rgv-work__item">
-        <div class="rgv-work__band rgv-logo-panel rgv-logo-panel--ovanova"><img src="/rgv-website-preview/assets/img/logo_ovanova.jpg" alt="Ovanova logo" width="800" height="1000" loading="lazy"></div>
-        <div class="rgv-work__body">
-          <span class="rgv-work__tag">Microgrid energy company</span>
-          <h3 class="rgv-h3">Ovanova</h3>
-          <a class="rgv-link" href="/rgv-website-preview/ovanova-revive-global-ventures/">Read the Ovanova case study</a>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section rgv-section--mint" aria-labelledby="rgv-team-h">
-  <div class="rgv-wrap">
-    <div class="rgv-intro">
-      <h2 class="rgv-h2" id="rgv-team-h">The gardeners</h2>
-      <p class="rgv-lead">Founders ourselves, with roots in India, Thailand, Nepal and the US. <a class="rgv-link" href="/rgv-website-preview/about/">Meet the team</a></p>
+  <!-- gardens we've tended -->
+  <section class="work" id="work" aria-labelledby="w-h">
+    <div class="bot bot--a" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="work__head rise"><div><p class="eyebrow">Our work</p><h2 id="w-h">Gardens we've tended</h2></div><a class="link" href="https://hashtagbodhi.github.io/rgv-website-preview/engagements/">See all our work</a></div>
+      <div class="work__grid">
+        <a class="case rise" href="https://hashtagbodhi.github.io/rgv-website-preview/vagari-vati-revive-global-ventures/"><img src="assets/projects-vagari.webp" alt="Vagari Vati logo" loading="lazy"><div><small>Streetwear brand</small><h3>Vagari Vati</h3><p>A streetwear brand built around identity, movement and self-expression.</p><span class="link" style="color:var(--forest);justify-self:start">Read the case study</span></div></a>
+        <a class="case rise" href="https://hashtagbodhi.github.io/rgv-website-preview/ovanova-revive-global-ventures/"><img src="assets/projects-ovanova.webp" alt="Ovanova logo" loading="lazy"><div><small>Microgrid energy company</small><h3>Ovanova</h3><p>Resilient energy systems, intelligent hardware and deployable power technology.</p><span class="link" style="color:var(--forest);justify-self:start">Read the case study</span></div></a>
+      </div>
     </div>
-    <ul class="rgv-team">
-      <li class="rgv-member"><div class="rgv-member__photo"><img src="/rgv-website-preview/assets/img/joshua.jpg" alt="Joshua Willig" width="600" height="750" loading="lazy"></div><div><p class="rgv-member__name">Joshua Willig</p><p class="rgv-member__role">Founder &amp; Chief Strategist</p></div></li>
-      <li class="rgv-member"><div class="rgv-member__photo"><img src="/rgv-website-preview/assets/img/steve.jpg" alt="Stephen (Steve) Lewin" width="600" height="750" loading="lazy"></div><div><p class="rgv-member__name">Stephen (Steve) Lewin</p><p class="rgv-member__role">Partner</p></div></li>
-      <li class="rgv-member"><div class="rgv-member__photo"><img src="/rgv-website-preview/assets/img/bodhi.jpg" alt="Bodhi Ratan" width="600" height="750" loading="lazy"></div><div><p class="rgv-member__name">Bodhi Ratan</p><p class="rgv-member__role">Brand, design &amp; storytelling</p></div></li>
-      <li class="rgv-member"><div class="rgv-member__photo"><img src="/rgv-website-preview/assets/img/shekhar.jpg" alt="Shekhar Sharma" width="600" height="750" loading="lazy"></div><div><p class="rgv-member__name">Shekhar Sharma</p><p class="rgv-member__role">Chief Operating Officer</p></div></li>
-      <li class="rgv-member"><div class="rgv-member__photo"><img src="/rgv-website-preview/assets/img/jade.jpg" alt="Jade" width="600" height="750" loading="lazy"></div><div><p class="rgv-member__name">Jade</p><p class="rgv-member__role">Decentralized talent networks</p></div></li>
-      <li class="rgv-member"><div class="rgv-member__photo"><img src="/rgv-website-preview/assets/img/andy.jpg" alt="Andy Yin" width="600" height="750" loading="lazy"></div><div><p class="rgv-member__name">Andy Yin</p><p class="rgv-member__role">Global sourcing strategy</p></div></li>
-    </ul>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section" aria-labelledby="rgv-faq-h">
-  <div class="rgv-wrap rgv-faq">
-    <div class="rgv-stack">
-      <h2 class="rgv-h2" id="rgv-faq-h">Questions founders ask us</h2>
-      <p class="rgv-p">Can't find your answer? <a class="rgv-link" href="/rgv-website-preview/contacts/">Ask us directly</a>.</p>
+  <!-- the gardeners -->
+  <section class="team" id="team" aria-labelledby="t-h">
+    <div class="bot bot--c" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="team__head rise"><div><p class="eyebrow">The gardeners</p><h2 id="t-h">Founders ourselves</h2></div><p>With roots in India, Thailand, Nepal and the US. <a class="link" href="https://hashtagbodhi.github.io/rgv-website-preview/about/" style="color:var(--lime)">Meet the team</a></p></div>
+      <div class="team__grid">
+        <div class="person rise"><img src="assets/team-joshua-willig.webp" alt="" loading="lazy"><b>Joshua Willig</b><span>Founder &amp; Chief Strategist</span></div>
+        <div class="person rise"><img src="assets/team-steve-lewin.webp" alt="" loading="lazy"><b>Steve Lewin</b><span>Partner</span></div>
+        <div class="person rise"><img src="assets/team-bodhi-ratan.webp" alt="" loading="lazy"><b>Bodhi Ratan</b><span>Brand, design &amp; storytelling</span></div>
+        <div class="person rise"><img src="assets/team-shekhar-sharma.webp" alt="" loading="lazy"><b>Shekhar Sharma</b><span>Chief Operating Officer</span></div>
+        <div class="person rise"><img src="assets/team-jade.webp" alt="" loading="lazy"><b>Jade</b><span>Decentralized talent networks</span></div>
+        <div class="person rise"><img src="assets/team-andy-yin.webp" alt="" loading="lazy"><b>Andy Yin</b><span>Global sourcing strategy</span></div>
+      </div>
     </div>
-    <div class="rgv-faq__list">
-      <details>
-        <summary>Who do you work with?</summary>
-        <p>Founders and owners of small and mid-sized businesses, from people planting something new to leaders of established companies who want their business to work better for them.</p>
-      </details>
-      <details>
-        <summary>Why do you call yourselves gardeners?</summary>
-        <p>Because good growth can't be forced. A gardener prepares the soil, gives the right care at the right time, prunes what's draining energy and stays patient. That's how we work with founders: starting with you, then tending the business so it grows in a healthy way.</p>
-      </details>
-      <details>
-        <summary>Can I use just one of your services?</summary>
-        <p>Yes. The Roots, the Garden Team and the Greenhouse each work on their own. If you need broader help, your lead gardener brings them together.</p>
-      </details>
-      <details>
-        <summary>How does working together start?</summary>
-        <p>With a conversation. We listen first, then suggest what to plant and what it will take. You can work with us on a single project, ongoing support in one area, or across several.</p>
-      </details>
-      <details>
-        <summary>Why are you more affordable than a big firm?</summary>
-        <p>We work through a distributed network of experienced professionals, with much of our team based in Asia. You get specialist skills at a much lower cost, guided by a senior lead gardener.</p>
-      </details>
-      <details>
-        <summary>Do you help businesses grow across borders?</summary>
-        <p>Yes. Our team has built and run businesses in India and Thailand, advised companies in the US, and brings deep sourcing experience across China and Southeast Asia.</p>
-      </details>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="rgv-section" style="padding-top:0" aria-labelledby="rgv-cta-h">
-  <div class="rgv-wrap">
-    <div class="rgv-cta">
+  <!-- questions -->
+  <section class="faq" aria-labelledby="q-h">
+    <div class="wrap faq__grid">
+      <div class="rise"><p class="eyebrow">Questions</p><h2 id="q-h" style="margin-top:16px">Questions founders ask us</h2><p>Can't find your answer? <a class="link" href="https://hashtagbodhi.github.io/rgv-website-preview/contacts/" style="color:var(--forest)">Ask us directly</a></p></div>
       <div>
-        <h2 class="rgv-h2" id="rgv-cta-h">Every garden starts with a conversation.</h2>
-        <p class="rgv-p">Tell us about you and what you're growing. We'll listen, ask good questions and suggest where to begin. No pressure, no jargon.</p>
+        <details open><summary>Who do you work with?</summary><p>Founders and owners of small and mid-sized businesses, from people planting something new to leaders of established companies who want their business to work better for them.</p></details>
+        <details><summary>Why do you call yourselves gardeners?</summary><p>Because good growth can't be forced. A gardener prepares the soil, gives the right care at the right time, prunes what's draining energy and stays patient. That's how we work with founders: starting with you, then tending the business so it grows in a healthy way.</p></details>
+        <details><summary>Can I use just one of your services?</summary><p>Yes. The Roots, the Garden Team and the Greenhouse each work on their own. If you need broader help, your lead gardener brings them together.</p></details>
+        <details><summary>How does working together start?</summary><p>With a conversation. We listen first, then suggest what to plant and what it will take. You can work with us on a single project, ongoing support in one area, or across several.</p></details>
+        <details><summary>Why are you more affordable than a big firm?</summary><p>We work through a distributed network of experienced professionals, with much of our team based in Asia. You get specialist skills at a much lower cost, guided by a senior lead gardener.</p></details>
+        <details><summary>Do you help businesses grow across borders?</summary><p>Yes. Our team has built and run businesses in India and Thailand, advised companies in the US, and brings deep sourcing experience across China and Southeast Asia.</p></details>
       </div>
-      <div class="rgv-btns"><a class="rgv-btn rgv-btn--primary" href="/rgv-website-preview/contacts/">Let's talk</a></div>
     </div>
+  </section>
+
+  <!-- closing -->
+  <section class="cta" id="talk" aria-labelledby="c-h">
+    <div class="bot bot--b" aria-hidden="true"></div>
+    <div class="wrap rise">
+      <p class="eyebrow">Let's talk</p>
+      <h2 id="c-h">Every garden starts with a conversation.</h2>
+      <p class="lead">Tell us about you and what you're growing. We'll listen, ask good questions and suggest where to begin. No pressure, no jargon.</p>
+      <a class="btn btn--lime" href="https://hashtagbodhi.github.io/rgv-website-preview/contacts/">Let's talk</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div><img src="assets/logo-white.png" alt="Revive Global Ventures" width="570" height="191"><p>Gardeners for founders and the businesses they grow.</p></div>
+      <div><h4>How we help</h4><ul><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/founder-alignment/">The Roots</a></li><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/delivery-teams/">The Garden Team</a></li><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/commercialization-engine/">The Greenhouse</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/about/">The gardeners</a></li><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/engagements/">Our work</a></li><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/revive-nepal/">Revive Nepal</a></li><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/blog/">Blog</a></li></ul></div>
+      <div><h4>Talk to us</h4><ul><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/contacts/">Book a call</a></li><li><a href="https://hashtagbodhi.github.io/rgv-website-preview/authors/">For authors</a></li></ul></div>
+    </div>
+    <div class="foot__base"><span>&copy; 2026 Revive Global Ventures</span><span>Concept preview &middot; botanical engravings by Ernst Haeckel (1904, public domain)</span></div>
   </div>
-</section>
+</footer>
 
-</div>
-
-<div class="rgv">
-  <footer class="rgv-footer">
-    <div class="rgv-wrap">
-      <div class="rgv-footer__grid">
-        <div class="rgv-footer__brand">
-          <a class="rgv-footer__logo" href="/rgv-website-preview/" aria-label="Revive Global Ventures, home"><img src="/rgv-website-preview/assets/img/logo_white.png" alt="Revive Global Ventures" width="570" height="191"></a>
-          <p class="rgv-footer__motto">Gardeners for founders. We help you grow a business that gives back to the life you want.</p>
-        </div>
-        <div>
-          <h2 class="rgv-footer__h">How we help</h2>
-          <ul>
-            <li><a href="/rgv-website-preview/founder-alignment/">The Roots</a></li>
-            <li><a href="/rgv-website-preview/delivery-teams/">The Garden Team</a></li>
-            <li><a href="/rgv-website-preview/commercialization-engine/">The Greenhouse</a></li>
-            <li><a href="/rgv-website-preview/how-we-work/">How we work</a></li>
-          </ul>
-        </div>
-        <div>
-          <h2 class="rgv-footer__h">Company</h2>
-          <ul>
-            <li><a href="/rgv-website-preview/about/">The gardeners</a></li>
-            <li><a href="/rgv-website-preview/engagements/">Our work</a></li>
-            <li><a href="/rgv-website-preview/revive-nepal/">Revive Nepal</a></li>
-            <li><a href="/rgv-website-preview/authors/">For Authors</a></li>
-            <li><a href="/rgv-website-preview/blog/">Blog</a></li>
-          </ul>
-        </div>
-        <div>
-          <h2 class="rgv-footer__h">Contact</h2>
-          <address>
-            <span>131 Continental Drive, Suite 305<br>Newark, DE 19713</span>
-            <a href="mailto:info@reviveglobalventures.com">info@reviveglobalventures.com</a>
-            <span>Monday to Friday, 9am to 7pm CST</span>
-            <a href="/rgv-website-preview/contacts/">Let's talk</a>
-          </address>
-        </div>
-      </div>
-      <div class="rgv-footer__bottom">
-        <span>© <span data-rgv-year>2026</span> Revive Global Ventures. All rights reserved.</span>
-        <span>Planted with care in India, Thailand, Nepal and the US.</span>
-      </div>
-    </div>
-  </footer>
-</div>
 <script>
 (function () {
-  if (window.__rgv) return; window.__rgv = true;
-  var header = document.getElementById('rgv-header');
-  var burger = document.getElementById('rgv-burger');
-  var menus = Array.prototype.slice.call(document.querySelectorAll('[data-rgv-menu]'));
-  function setMenu(btn, open) {
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    var panel = document.getElementById(btn.getAttribute('aria-controls'));
-    if (panel) panel.hidden = !open;
+  var top = document.querySelector('.top'), burger = document.getElementById('burger');
+  function closeAll(except) { [].slice.call(top.querySelectorAll('[data-menu]')).forEach(function (b) { if (b !== except) { b.setAttribute('aria-expanded', 'false'); document.getElementById(b.getAttribute('aria-controls')).hidden = true; } }); }
+  [].slice.call(top.querySelectorAll('[data-menu]')).forEach(function (b) {
+    b.addEventListener('click', function (e) { e.stopPropagation(); var open = b.getAttribute('aria-expanded') === 'true'; closeAll(b); b.setAttribute('aria-expanded', String(!open)); document.getElementById(b.getAttribute('aria-controls')).hidden = open; });
+  });
+  burger.addEventListener('click', function (e) { e.stopPropagation(); var o = top.classList.toggle('is-open'); burger.setAttribute('aria-expanded', String(o)); burger.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); });
+  document.addEventListener('click', function (e) { if (!top.contains(e.target)) { closeAll(); top.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeAll(); top.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); } });
+})();
+(function () {
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // gentle rise as sections arrive; anything already on screen stays visible
+  var items = [].slice.call(document.querySelectorAll('.rise'));
+  if (!reduce && 'IntersectionObserver' in window) {
+    var vh = window.innerHeight;
+    items.forEach(function (el) { if (el.getBoundingClientRect().top > vh * 0.95) el.classList.add('is-waiting'); });
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.remove('is-waiting'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    items.forEach(function (el) { if (el.classList.contains('is-waiting')) io.observe(el); });
+    setTimeout(function () { items.forEach(function (el) { el.classList.remove('is-waiting'); }); }, 6000);
   }
-  function closeAll(except) { menus.forEach(function (b) { if (b !== except) setMenu(b, false); }); }
-  menus.forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = btn.getAttribute('aria-expanded') !== 'true';
-      closeAll(btn); setMenu(btn, open);
-    });
-  });
-  document.addEventListener('click', function (e) { if (!e.target.closest || !e.target.closest('.rgv-nav__item')) closeAll(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape') return;
-    var openBtn = menus.filter(function (b) { return b.getAttribute('aria-expanded') === 'true'; })[0];
-    closeAll(); if (openBtn) openBtn.focus();
-    if (header && header.classList.contains('is-open') && burger) { header.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); burger.focus(); }
-  });
-  if (burger && header) burger.addEventListener('click', function () {
-    var open = header.classList.toggle('is-open');
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  });
-  function onScroll() { if (header) header.classList.toggle('is-scrolled', window.scrollY > 4); }
-  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
-  var path = location.pathname.replace(/\/?$/, '/');
-  document.querySelectorAll('.rgv-nav__link[href]').forEach(function (a) { if (a.getAttribute('href') === path) a.setAttribute('aria-current', 'page'); });
-  document.querySelectorAll('[data-rgv-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+  if (reduce) return;
+  // walking through the gate: fronds part and the greenhouse comes closer as you scroll
+  var gate = document.getElementById('gate'), walk = document.getElementById('walk'), ticking = false;
+  function frame() {
+    ticking = false;
+    var h = gate.offsetHeight, y = window.scrollY;
+    gate.style.setProperty('--p', Math.min(1, Math.max(0, y / h)).toFixed(3));
+    var r = walk.getBoundingClientRect(), vh = window.innerHeight;
+    walk.style.setProperty('--q', ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+  frame();
 })();
 </script>
-
 </body>
 </html>

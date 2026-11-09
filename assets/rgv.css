@@ -808,3 +808,143 @@
   .rgv .rgv-grow__icon .rgv-ico { width: 34px; height: 34px; }
   .rgv .rgv-portrait img { width: 132px; }
 }
+
+/* ==========================================================================
+   Grove theme (Nov 2026): the whole site as a walk into a garden.
+   Deep canopy greens at the top of every page, pale sage clearings below,
+   vintage fern engravings (Ernst Haeckel, 1904, public domain) growing at the
+   edges of sections. Loaded last, so it re-themes the components above.
+   Engravings live in img/grove-*.webp; paths are relative to the stylesheet.
+   ========================================================================== */
+
+.rgv {
+  --rgv-white: #F1F4E8;      /* cards: soft cream, never pure white */
+  --rgv-mint: #D8E2CB;       /* alternate clearing */
+  --rgv-soil: #CCD9BF;
+  --rgv-line: #C2D0B5;
+  --rgv-ink: #12261C;
+  --rgv-text: #3F5547;
+  --rgv-forest-deep: #0F3324;
+  --rgv-on-dark: #C9D8C3;
+  --grove-night: #0C2619;
+  --grove-deep: #0F3324;
+  --grove-moss: #1B4A35;
+  --grove-clearing: #E6ECDB;
+  --grove-cream: #F1F4E8;
+  --grove-sage: #A9C29A;
+}
+.rgv#rgv-main { background: var(--grove-clearing); }
+
+/* ---------- header: dark canopy ---------- */
+.rgv.rgv-site-header {
+  --rgv-white: #0C2619; --rgv-ink: #F1F4E8; --rgv-text: #A9C29A;
+  --rgv-mint: rgba(169, 194, 154, .12); --rgv-forest: #96C930; --rgv-line: rgba(169, 194, 154, .2);
+  --rgv-shadow: 0 24px 48px -24px rgba(0, 0, 0, .6);
+}
+.rgv-site-header .rgv-header { background: var(--grove-night); }
+.rgv-site-header .rgv-header__logo img { height: 64px; }
+.rgv-site-header .rgv-menu { background: var(--grove-deep); }
+.rgv-site-header .rgv-btn--primary { background: #96C930; color: #0C2619; }
+.rgv-site-header .rgv-btn--primary:hover { background: #F1F4E8; color: #0C2619; }
+@media (max-width: 900px) { .rgv-site-header .rgv-header__logo img { height: 48px; } }
+
+/* ---------- engraving helper ---------- */
+.rgv .rgv-phero::after,
+.rgv .rgv-section::before,
+.rgv .rgv-cta::before,
+.rgv .rgv-footer::before {
+  content: ""; position: absolute; pointer-events: none; z-index: 0;
+  -webkit-mask: var(--grove-m, url(img/grove-frond-a.webp)) center / contain no-repeat;
+          mask: var(--grove-m, url(img/grove-frond-a.webp)) center / contain no-repeat;
+}
+
+/* ---------- page heroes: the garden gate ---------- */
+.rgv .rgv-phero {
+  --rgv-ink: #F1F4E8; --rgv-text: #C9D8C3; --rgv-forest: #96C930; --rgv-forest-deep: #C5E37A;
+  --rgv-mint: #1B4A35; --rgv-white: #0C2619; --rgv-line: rgba(169, 194, 154, .25); --rgv-earth: #E2CDAF;
+  position: relative; overflow: hidden; isolation: isolate;
+  background:
+    radial-gradient(90% 120% at 85% 0%, rgba(27, 74, 53, .9), transparent 60%),
+    linear-gradient(180deg, #0C2619 0%, #0F3324 100%);
+  color: var(--grove-cream);
+  padding-block: clamp(48px, 7vw, 96px) clamp(64px, 9vw, 120px);
+  margin-bottom: 0;
+}
+.rgv section.rgv-phero::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none; inset: auto -6% -38% auto;
+  width: clamp(360px, 48vw, 720px); aspect-ratio: 1100 / 1189; background: rgba(169, 194, 154, .16);
+  -webkit-mask: url(img/grove-staghorn.webp) center / contain no-repeat;
+          mask: url(img/grove-staghorn.webp) center / contain no-repeat;
+}
+.rgv .rgv-phero::after { --grove-m: url(img/grove-frond-c.webp); width: clamp(180px, 22vw, 320px); aspect-ratio: 640 / 527; left: -70px; top: -40px; background: rgba(169, 194, 154, .14); transform: rotate(-12deg); z-index: -1; }
+.rgv .rgv-phero .rgv-h1 { color: var(--grove-cream); }
+.rgv .rgv-phero .rgv-lead, .rgv .rgv-phero .rgv-p { color: rgba(241, 244, 232, .86); }
+.rgv .rgv-phero .rgv-label { color: #96C930; letter-spacing: .14em; text-transform: uppercase; font-size: .8125rem; }
+.rgv .rgv-phero .rgv-crumbs { color: var(--grove-sage); }
+.rgv .rgv-phero .rgv-crumbs a { color: var(--grove-cream); }
+.rgv .rgv-phero .rgv-btn--secondary { border-color: rgba(241, 244, 232, .45); color: var(--grove-cream); }
+.rgv .rgv-phero .rgv-btn--secondary:hover { background: rgba(241, 244, 232, .1); color: var(--grove-cream); }
+.rgv .rgv-phero .rgv-btn--primary:hover { color: #0C2619; }
+/* the photo or diagram beside the headline */
+.rgv .rgv-phero__art {
+  --rgv-ink: #12261C; --rgv-text: #3F5547; --rgv-forest: #096140; --rgv-mint: #E6ECDB; --rgv-white: #F1F4E8; --rgv-line: #C2D0B5;
+  position: relative; background: var(--grove-clearing);
+  box-shadow: 0 0 0 1px rgba(150, 201, 48, .25), 0 40px 80px -40px rgba(0, 0, 0, .7);
+}
+.rgv .rgv-phero__art:not(.rgv-phero__art--logo):has(> img)::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(9, 97, 64, .10), rgba(12, 38, 25, .45)); mix-blend-mode: multiply;
+}
+.rgv .rgv-phero__art > img { filter: saturate(.9); }
+
+/* ---------- sections: clearings and canopy ---------- */
+.rgv .rgv-section { position: relative; overflow: hidden; isolation: isolate; }
+.rgv .rgv-section > .rgv-wrap { position: relative; z-index: 1; }
+.rgv .rgv-section::before { width: 300px; aspect-ratio: 580 / 594; background: rgba(9, 97, 64, .10); right: -70px; top: -40px; transform: rotate(160deg); }
+.rgv .rgv-section:nth-of-type(odd)::before { --grove-m: url(img/grove-frond-b.webp); aspect-ratio: 640 / 402; width: 340px; left: -110px; right: auto; top: auto; bottom: 24px; transform: rotate(-24deg); }
+.rgv .rgv-section:nth-of-type(3n)::before { --grove-m: url(img/grove-frond-c.webp); aspect-ratio: 640 / 527; width: 280px; right: -80px; left: auto; top: auto; bottom: -60px; transform: rotate(200deg); }
+.rgv .rgv-section--mint { background: var(--rgv-mint); }
+
+/* deep sections: under the canopy */
+.rgv .rgv-section--deep {
+  --rgv-white: #F1F4E8; --rgv-line: rgba(169, 194, 154, .22);
+  background: linear-gradient(rgba(12, 38, 25, .92), rgba(12, 38, 25, .95)), url(img/grove-ferns.jpg) center / cover;
+}
+.rgv .rgv-section--deep::before { background: rgba(169, 194, 154, .12); }
+.rgv .rgv-section--deep .rgv-h2, .rgv .rgv-section--deep .rgv-h3 { color: var(--grove-cream); }
+
+/* photos inside sections pick up a little green */
+.rgv .rgv-frame, .rgv .rgv-cover { position: relative; }
+.rgv .rgv-frame::after, .rgv .rgv-cover::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(9, 97, 64, .06), rgba(12, 38, 25, .28)); mix-blend-mode: multiply; border-radius: inherit; }
+
+/* cards sit on the clearing like stones on moss */
+.rgv .rgv-panel, .rgv .rgv-work__item, .rgv .rgv-eng__item { box-shadow: 0 24px 48px -36px rgba(12, 38, 25, .5); }
+
+/* ---------- closing call to action: the misty hill ---------- */
+.rgv .rgv-cta {
+  --rgv-ink: #F1F4E8; --rgv-text: #D5E1CF; --rgv-forest: #96C930; --rgv-forest-deep: #C5E37A; --rgv-white: #0C2619;
+  position: relative; overflow: hidden; isolation: isolate;
+  background: linear-gradient(180deg, rgba(12, 38, 25, .55), rgba(12, 38, 25, .85)), url(img/grove-mist.jpg) center / cover;
+  color: var(--grove-cream);
+}
+.rgv .rgv-cta > * { position: relative; z-index: 1; }
+.rgv .rgv-cta::before { --grove-m: url(img/grove-frond-b.webp); width: 360px; aspect-ratio: 640 / 402; right: -40px; bottom: -90px; background: rgba(150, 201, 48, .3); }
+.rgv .rgv-cta .rgv-h2, .rgv .rgv-cta .rgv-h3 { color: var(--grove-cream); }
+.rgv .rgv-cta .rgv-p, .rgv .rgv-cta .rgv-lead { color: rgba(241, 244, 232, .88); }
+.rgv .rgv-cta .rgv-btn--primary:hover { color: #0C2619; }
+
+/* ---------- footer: night garden ---------- */
+.rgv .rgv-footer { background: var(--grove-night); position: relative; overflow: hidden; }
+.rgv .rgv-footer > * { position: relative; z-index: 1; }
+.rgv .rgv-footer::before { --grove-m: url(img/grove-staghorn.webp); width: 420px; aspect-ratio: 1100 / 1189; right: -120px; top: -60px; background: rgba(169, 194, 154, .07); }
+
+/* ---------- small things ---------- */
+.rgv .rgv-label { letter-spacing: .02em; }
+.rgv .rgv-section .rgv-btn--primary { background: var(--rgv-forest); }
+.rgv .rgv-tag { border-color: rgba(18, 38, 28, .18); }
+.rgv :focus-visible { outline-color: #96C930; }
+.rgv .rgv-phero .rgv-rn-badge { background: #096140; }
+
+/* breathing room between a page hero and the first section below it
+   (a few pages carry an inline padding-top:0 from the old design) */
+.rgv .rgv-phero + .rgv-section { padding-top: clamp(56px, 7vw, 96px) !important; }
