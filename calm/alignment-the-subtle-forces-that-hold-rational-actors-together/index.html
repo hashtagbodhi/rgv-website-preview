@@ -234,6 +234,10 @@
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
   var path = location.pathname.replace(/\/?$/, '/');
   document.querySelectorAll('.rgv-nav__link[href]').forEach(function (a) { if (a.getAttribute('href') === path) a.setAttribute('aria-current', 'page'); });
+  // header videos rest as a still image for anyone who prefers less motion
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.rgv-banner video').forEach(function (v) { v.removeAttribute('autoplay'); v.pause(); });
+  }
   document.querySelectorAll('[data-rgv-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
 </script>
