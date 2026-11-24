@@ -1034,3 +1034,53 @@
 }
 /* the growth loop further down the engine page, larger */
 .rgv .rgv-ring { max-width: 640px; }
+
+/* ==========================================================================
+   Audit fixes (Nov 2026): readable muted text, leftover dark-theme colours
+   ========================================================================== */
+.rgv { --calm-muted: #646B66; }               /* 4.9:1 on paper, 4.5:1 on ivory */
+.rgv .rgv-crumbs span[aria-current], .rgv .rgv-crumbs span { color: var(--calm-muted); }
+.rgv .rgv-quote { color: var(--rgv-ink); font-weight: 300; }
+.rgv .rgv-section--deep .rgv-quote { color: var(--rgv-ink); }
+.rgv .rgv-stars { color: var(--rgv-forest); }
+.rgv .rgv-footer__bottom, .rgv .rgv-footer__bottom span { color: var(--calm-muted); }
+
+/* ==========================================================================
+   The team, reimagined: two lead partners side by side, then a quiet row
+   of the wider leadership with bios that open in place
+   ========================================================================== */
+.rgv .rgv-leads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 5vw, 72px); }
+.rgv .rgv-lead-card { display: grid; gap: 28px; align-content: start; }
+.rgv .rgv-lead-card__photo { aspect-ratio: 4 / 5; overflow: hidden; background: var(--calm-ivory); }
+.rgv .rgv-lead-card__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 24%; filter: saturate(.9); }
+.rgv .rgv-lead-card .rgv-stack { gap: 14px; }
+.rgv .rgv-lead-card__name { font-family: var(--rgv-serif); font-weight: 300; font-size: clamp(2rem, 1.6rem + 1.2vw, 2.75rem); line-height: 1.08; letter-spacing: -.015em; color: var(--rgv-ink); margin: -4px 0 6px; }
+.rgv .rgv-lead-card details summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 10px; font-size: .75rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--rgv-ink); border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+.rgv .rgv-lead-card details summary::-webkit-details-marker { display: none; }
+.rgv .rgv-lead-card details summary::after { content: "+"; font-size: 1rem; letter-spacing: 0; }
+.rgv .rgv-lead-card details[open] summary::after { content: "\2212"; }
+.rgv .rgv-lead-card details[open] summary { margin-bottom: 14px; }
+.rgv .rgv-lead-card details .rgv-p + .rgv-p { margin-top: 12px; }
+.rgv .rgv-lead-card .rgv-bio__creds { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 14px; border-top: 1px solid var(--rgv-line); margin-top: 6px; }
+.rgv .rgv-lead-card .rgv-bio__creds span { border-radius: 0; background: transparent; border: 1px solid var(--rgv-line); color: var(--rgv-text); font-weight: 500; font-size: .8125rem; padding: 6px 12px; }
+
+.rgv .rgv-team-group { margin-top: clamp(88px, 10vw, 140px); padding-top: clamp(56px, 6vw, 80px); border-top: 1px solid var(--rgv-line); }
+.rgv .rgv-intro--crew { margin-bottom: clamp(36px, 4vw, 56px); }
+.rgv .rgv-crew { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 32px); align-items: start; }
+.rgv .rgv-person { display: grid; gap: 6px; align-content: start; }
+.rgv .rgv-person__photo { aspect-ratio: 4 / 5; overflow: hidden; background: var(--calm-ivory); margin-bottom: 14px; }
+.rgv .rgv-person__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; filter: saturate(.85) grayscale(.15); transition: filter .6s ease, transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.rgv .rgv-person:hover .rgv-person__photo img { filter: none; transform: scale(1.03); }
+.rgv .rgv-person__name { margin: 0; font-family: var(--rgv-serif); font-weight: 400; font-size: 1.5rem; line-height: 1.2; color: var(--rgv-ink); }
+.rgv .rgv-person__role { margin: 0; font-size: .875rem; color: var(--rgv-text); line-height: 1.5; }
+.rgv .rgv-person__more { margin-top: 10px; }
+.rgv .rgv-person__more summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 8px; font-size: .6875rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--rgv-ink); border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+.rgv .rgv-person__more summary::-webkit-details-marker { display: none; }
+.rgv .rgv-person__more summary::after { content: "+"; font-size: .9375rem; letter-spacing: 0; }
+.rgv .rgv-person__more[open] summary::after { content: "\2212"; }
+.rgv .rgv-person__more .rgv-p { font-size: .9375rem; line-height: 1.65; margin-top: 12px; }
+@media (max-width: 1000px) { .rgv .rgv-crew { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 44px; } }
+@media (max-width: 760px) { .rgv .rgv-leads { grid-template-columns: minmax(0, 1fr); gap: 64px; } }
+@media (max-width: 420px) { .rgv .rgv-crew { gap: 16px; row-gap: 36px; } .rgv .rgv-person__name { font-size: 1.25rem; } }
+/* old lime / heavy rules above small columns become a fine green line */
+.rgv .rgv-value, .rgv .rgv-col, .rgv .rgv-pillar { border-top: 1px solid var(--rgv-forest) !important; }
