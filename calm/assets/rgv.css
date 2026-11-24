@@ -1094,3 +1094,6 @@
 .rgv .rgv-banner { height: clamp(200px, 38vh, 440px); }
 .rgv .rgv-banner video[poster*="stupa"] { object-position: center 35%; }
 @media (max-width: 760px) { .rgv .rgv-banner { height: clamp(190px, 30vh, 260px); } }
+/* taller headers so the footage itself shows (client feedback) */
+.rgv .rgv-banner { height: clamp(380px, 72vh, 760px); }
+@media (max-width: 760px) { .rgv .rgv-banner { height: clamp(300px, 46vh, 440px); } }
