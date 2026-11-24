@@ -1019,3 +1019,18 @@
 /* diagrams beside page titles sit on a quiet card */
 .rgv .rgv-phero__art:not(:has(> img)) { background: #fff; border: 1px solid var(--rgv-line); box-shadow: none; }
 
+
+/* ---------- pages with a photo across the top: one centred column,
+   and the infographic sits large beneath the text ---------- */
+.rgv.rgv-has-banner .rgv-phero__grid { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.rgv.rgv-has-banner .rgv-phero__grid > .rgv-stack { max-width: 880px; margin-inline: auto; text-align: center; align-items: center; }
+.rgv.rgv-has-banner .rgv-phero .rgv-lead, .rgv.rgv-has-banner .rgv-phero .rgv-p { margin-inline: auto; }
+.rgv.rgv-has-banner .rgv-phero .rgv-crumbs, .rgv.rgv-has-banner .rgv-phero .rgv-btns { justify-content: center; }
+.rgv.rgv-has-banner .rgv-phero__art:not(:has(> img)) { width: 100%; max-width: 860px; margin-top: clamp(40px, 6vw, 80px); background: #fff; }
+.rgv.rgv-has-banner .rgv-phero__art:not(:has(> img)) .rgv-dg { padding: clamp(20px, 4vw, 56px); }
+@media (max-width: 760px) {
+  .rgv.rgv-has-banner .rgv-phero__art:not(:has(> img)) { max-width: none; }
+  .rgv.rgv-has-banner .rgv-phero__art:not(:has(> img)) .rgv-dg { padding: 12px 4px; }
+}
+/* the growth loop further down the engine page, larger */
+.rgv .rgv-ring { max-width: 640px; }
