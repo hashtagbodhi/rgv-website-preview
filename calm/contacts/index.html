@@ -171,6 +171,7 @@
       <div class="rgv-footer__bottom">
         <span>© <span data-rgv-year>2026</span> Revive Global Ventures. All rights reserved.</span>
         <span>Planted with care in India, Thailand, Nepal and the US.</span>
+        <span class="rgv-credit">Diagram icons: <a href="https://phosphoricons.com" rel="noopener">Phosphor Icons</a> by Tobias Fried &amp; Helena Zhang (MIT licence)</span>
       </div>
     </div>
   </footer>
@@ -214,7 +215,140 @@
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('.rgv-banner video').forEach(function (v) { v.removeAttribute('autoplay'); v.pause(); });
   }
+
+  /* ---- infographics: drawn in on arrival, then responsive to hover, focus and tap ---- */
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function wire(svg) {
+    var nodes = [].slice.call(svg.querySelectorAll('.dg-node'));
+    var det = svg.querySelector('.dg-detail');
+    function focus(i) {
+      var on = i !== null && i !== undefined;
+      svg.classList.toggle('is-focus', on);
+      nodes.forEach(function (n) { n.classList.toggle('is-on', on && n.getAttribute('data-i') == i); });
+      [].forEach.call(svg.querySelectorAll('[data-for]'), function (e) { e.classList.toggle('is-on', on && e.getAttribute('data-for') == i); });
+      if (det && on) {
+        var n = svg.querySelector('.dg-node[data-i="' + i + '"]'); if (!n || !n.getAttribute('data-desc')) return;
+        det.querySelector('.dg-detail-title').textContent = n.getAttribute('data-title');
+        var ls = n.getAttribute('data-desc').split('|');
+        [].forEach.call(det.querySelectorAll('.dg-detail-line'), function (t, k) { t.textContent = ls[k] || ''; });
+      }
+      svg.dispatchEvent(new CustomEvent('dg-focus', { detail: on ? +i : null }));
+    }
+    nodes.forEach(function (n) {
+      var i = n.getAttribute('data-i');
+      n.addEventListener('mouseenter', function () { focus(i); });
+      n.addEventListener('mouseleave', function () { if (document.activeElement !== n) focus(null); });
+      n.addEventListener('focus', function () { focus(i); });
+      n.addEventListener('blur', function () { focus(null); });
+      n.addEventListener('keydown', function (e) { if (e.key === 'Escape') { n.blur(); focus(null); } });
+    });
+    svg.__focus = focus;
+  }
+  document.querySelectorAll('svg.rgv-dg').forEach(wire);
+  // the capability list beside the engine loop lights up the matching step, and the other way round
+  var ring = document.querySelector('.rgv-ring svg.rgv-dg'), cyc = document.querySelectorAll('.rgv-cycle li');
+  if (ring && cyc.length) {
+    cyc.forEach(function (li, k) {
+      li.addEventListener('mouseenter', function () { ring.__focus(k); });
+      li.addEventListener('mouseleave', function () { ring.__focus(null); });
+    });
+    ring.addEventListener('dg-focus', function (e) { cyc.forEach(function (li, k) { li.classList.toggle('is-on', e.detail === k); }); });
+  }
+  // draw-in on arrival (lines trace themselves, labels and icons settle in)
+  if (!calm && 'IntersectionObserver' in window) {
+    var seen = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return; seen.unobserve(en.target);
+        var el = en.target; el.classList.add('is-live');
+        el.querySelectorAll('[data-len]').forEach(function (s) { s.style.strokeDashoffset = '0'; });
+        setTimeout(function () { el.querySelectorAll('[data-len]').forEach(function (s) { s.style.strokeDasharray = ''; s.style.strokeDashoffset = ''; s.style.transition = ''; if (s.getAttribute('data-mk')) s.setAttribute('marker-end', s.getAttribute('data-mk')); }); }, 2800);
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('svg.rgv-dg').forEach(function (svg) {
+      var k = 0;
+      svg.querySelectorAll('.dg-arc, .dg-flow, .dg-spark, .dg-spoke').forEach(function (s) {
+        if (!s.getTotalLength) return; var len = Math.ceil(s.getTotalLength()); if (!len) return;
+        s.setAttribute('data-len', len);
+        var mk = s.getAttribute('marker-end'); if (mk) { s.setAttribute('data-mk', mk); s.removeAttribute('marker-end'); }
+        s.style.strokeDasharray = len; s.style.strokeDashoffset = len;
+        s.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(.45,0,.2,1) ' + (0.15 + k * 0.09).toFixed(2) + 's'; k++;
+      });
+      svg.classList.add('dg-wait'); seen.observe(svg);
+    });
+    document.querySelectorAll('.rgv-steps, .rgv-model, .rgv-cycle, .rgv-combos').forEach(function (g) {
+      [].forEach.call(g.children, function (c, k) { c.style.setProperty('--dg-i', k); });
+      g.classList.add('dg-wait'); seen.observe(g);
+    });
+  }
   document.querySelectorAll('[data-rgv-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+})();
+</script>
+
+<!-- Garden sound: a quiet ambient track, off by default. One tap turns it on (fading in at low volume);
+     the choice is remembered from page to page. Browsers only allow sound after a visitor interacts,
+     so when it was left on, it resumes on the visitor's first tap or key press on the next page.
+     /assets/audio/garden.mp3 is replaced at build time. Sound: an original garden ambience made for this site (assets/calm/audio/garden.mp3); swap the file to change it. -->
+<style>
+.rgvs { display: inline-flex; align-items: center; gap: 9px; flex: none; background: none; border: 0; padding: 6px 2px; margin-right: 12px; color: inherit; cursor: pointer; font: 600 11px/1 "Plus Jakarta Sans", system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.rgvs__bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 13px; }
+.rgvs__bars i { display: block; width: 2px; height: 3px; background: currentColor; border-radius: 1px; transition: height .4s ease; }
+.rgvs[aria-pressed="true"] .rgvs__bars i { animation: rgvsBar 1.6s ease-in-out infinite; }
+.rgvs[aria-pressed="true"] .rgvs__bars i:nth-child(2) { animation-delay: -.5s; }
+.rgvs[aria-pressed="true"] .rgvs__bars i:nth-child(3) { animation-delay: -1s; }
+.rgvs[aria-pressed="true"] .rgvs__bars i:nth-child(4) { animation-delay: -.25s; }
+@keyframes rgvsBar { 0%, 100% { height: 3px; } 50% { height: 13px; } }
+.rgvs:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 1100px) { .rgvs__lbl { display: none; } .rgvs { margin-right: 10px; padding: 10px 6px; } }
+@media (prefers-reduced-motion: reduce) { .rgvs[aria-pressed="true"] .rgvs__bars i { animation: none; height: 9px; } }
+</style>
+<script>
+(function () {
+  if (window.__rgvSound) return; window.__rgvSound = true;
+  var SRC = '/rgv-website-preview/calm/assets/audio/garden.mp3', VOL = 0.35, KEY = 'rgv-garden-sound';
+  var audio = new Audio(); audio.src = SRC; audio.loop = true; audio.preload = 'none'; audio.volume = 0;
+  var fadeT = null;
+  function store(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  function stored() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function fadeTo(target, ms, done) {
+    clearInterval(fadeT); var from = audio.volume, t0 = Date.now();
+    fadeT = setInterval(function () {
+      var k = Math.min(1, (Date.now() - t0) / ms); audio.volume = Math.max(0, Math.min(1, from + (target - from) * k));
+      if (k >= 1) { clearInterval(fadeT); if (done) done(); }
+    }, 50);
+  }
+  var btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'rgvs'; btn.setAttribute('aria-pressed', 'false');
+  btn.setAttribute('aria-label', 'Play quiet garden music');
+  btn.title = 'Quiet garden music';
+  btn.innerHTML = '<span class="rgvs__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="rgvs__lbl">Sound</span>';
+  function setUI(on) { btn.setAttribute('aria-pressed', on ? 'true' : 'false'); btn.setAttribute('aria-label', on ? 'Pause the garden music' : 'Play quiet garden music'); }
+  function play() {
+    audio.preload = 'auto';
+    var p = audio.play();
+    if (p && p.then) p.then(function () { setUI(true); fadeTo(VOL, 3000); }).catch(function () { setUI(false); armResume(); });
+    else { setUI(true); fadeTo(VOL, 3000); }
+  }
+  function pause() { setUI(false); fadeTo(0, 900, function () { audio.pause(); }); }
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (btn.getAttribute('aria-pressed') === 'true') { pause(); store('off'); } else { play(); store('on'); }
+  });
+  // left on from a previous page: resume on the first interaction (browsers block sound before one)
+  function armResume() {
+    function go(e) { if (e && btn.contains(e.target)) return; ['pointerdown', 'keydown', 'touchstart'].forEach(function (t) { document.removeEventListener(t, go, true); }); if (stored() === 'on') play(); }
+    ['pointerdown', 'keydown', 'touchstart'].forEach(function (t) { document.addEventListener(t, go, true); });
+  }
+  function place() {
+    var bar = document.querySelector('.rgv-header__bar, .hdr__bar, header.top .wrap'); if (!bar) return;
+    var tog = bar.querySelector('.rgvt');
+    if (tog) { tog.insertAdjacentElement('afterend', btn); }
+    else { var logo = bar.querySelector('.rgv-header__logo, .hdr__logo') || bar.firstElementChild; btn.style.marginLeft = 'auto'; logo.insertAdjacentElement('afterend', btn); }
+    if (stored() === 'on') play();
+  }
+  // run after the version switch has placed itself
+  function ready() { setTimeout(place, 0); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready); else ready();
+  document.addEventListener('visibilitychange', function () { if (document.hidden && !audio.paused) audio.pause(); else if (!document.hidden && btn.getAttribute('aria-pressed') === 'true') audio.play().catch(function () {}); });
 })();
 </script>
 

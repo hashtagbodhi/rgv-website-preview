@@ -1097,3 +1097,106 @@
 /* taller headers so the footage itself shows (client feedback) */
 .rgv .rgv-banner { height: clamp(380px, 72vh, 760px); }
 @media (max-width: 760px) { .rgv .rgv-banner { height: clamp(300px, 46vh, 440px); } }
+
+/* ==========================================================================
+   Infographics: micro animation and micro interaction (Nov 2026)
+   Icons: Phosphor Icons (MIT). Motion is slow and switches off for
+   anyone who prefers reduced motion.
+   ========================================================================== */
+.rgv .rgv-dg { overflow: visible; }
+.rgv .rgv-dg .dg-node { cursor: pointer; outline: none; }
+.rgv .rgv-dg .dg-dot, .rgv .rgv-dg .dg-halo, .rgv .rgv-dg .dg-arc, .rgv .rgv-dg .dg-spoke, .rgv .rgv-dg .dg-flow, .rgv .rgv-dg .dg-lbl, .rgv .rgv-dg .dg-chip {
+  transition: fill .4s ease, fill-opacity .4s ease, stroke .4s ease, stroke-opacity .4s ease, stroke-width .4s ease, opacity .4s ease, transform .5s cubic-bezier(.2,.7,.2,1);
+}
+/* hover / focus on a step, pillar or channel */
+.rgv .rgv-dg .dg-node.is-on .dg-dot { fill: #EEF3EC; stroke: var(--rgv-forest); stroke-opacity: 1; }
+.rgv .rgv-dg .dg-node.is-on .dg-halo { fill-opacity: .08; }
+.rgv .rgv-dg .dg-node.is-on .dg-lbl { fill: var(--rgv-forest); }
+.rgv .rgv-dg .dg-node.is-on > g { color: var(--rgv-forest) !important; }
+.rgv .rgv-dg .dg-node:focus-visible .dg-halo { fill-opacity: .14; stroke: var(--rgv-forest); stroke-width: 1; }
+.rgv .rgv-dg [data-for].is-on { stroke: var(--rgv-forest); stroke-opacity: 1; stroke-width: 1.6; }
+.rgv .rgv-dg.is-focus .dg-node:not(.is-on) { opacity: .55; }
+.rgv .rgv-dg.is-focus [data-for]:not(.is-on) { stroke-opacity: .2; }
+/* centre text swaps to the focused step's meaning */
+.rgv .rgv-dg .dg-default, .rgv .rgv-dg .dg-detail { transition: opacity .35s ease; }
+.rgv .rgv-dg .dg-detail { opacity: 0; }
+.rgv .rgv-dg.is-focus .dg-default { opacity: 0; }
+.rgv .rgv-dg.is-focus .dg-detail { opacity: 1; }
+/* channels */
+.rgv .rgv-dg .dg-chan.is-on .dg-chip { fill-opacity: 1; stroke-opacity: 1; stroke: var(--rgv-forest); }
+.rgv .rgv-dg .dg-pulse { stroke-dashoffset: 270; animation: dgFlow 3.6s linear infinite; opacity: .85; }
+.rgv .rgv-dg.is-focus .dg-pulse { opacity: .25; }
+@keyframes dgFlow { to { stroke-dashoffset: 0; } }
+.rgv .rgv-dg .dg-rot { animation: dgSpin 18s linear infinite; }
+@keyframes dgSpin { to { transform: rotate(360deg); } }
+/* slow orbit and travelling dot on the cycles */
+.rgv .rgv-dg .dg-orbit { transform-box: fill-box; transform-origin: center; animation: dgSpin 90s linear infinite; }
+.rgv .rgv-dg .dg-traveller { opacity: .9; }
+.rgv .rgv-dg.is-focus .dg-traveller { opacity: .3; }
+/* arrival: text and icons settle in after the lines have drawn */
+.rgv .rgv-dg.dg-wait .dg-node, .rgv .rgv-dg.dg-wait .dg-default, .rgv .rgv-dg.dg-wait > text, .rgv .rgv-dg.dg-wait .dg-traveller, .rgv .rgv-dg.dg-wait .dg-pulse, .rgv .rgv-dg.dg-wait .dg-end { opacity: 0; }
+.rgv .rgv-dg.dg-wait.is-live .dg-node, .rgv .rgv-dg.dg-wait.is-live .dg-default, .rgv .rgv-dg.dg-wait.is-live > text, .rgv .rgv-dg.dg-wait.is-live .dg-end { opacity: 1; transition: opacity .9s ease .7s; }
+.rgv .rgv-dg.dg-wait.is-live .dg-traveller, .rgv .rgv-dg.dg-wait.is-live .dg-pulse { opacity: .85; transition: opacity 1s ease 1.6s; }
+.rgv .rgv-dg.dg-wait.is-live.is-focus .dg-default { opacity: 0; transition: opacity .35s ease; }
+.rgv .rgv-dg.dg-wait.is-live.is-focus .dg-node:not(.is-on) { opacity: .55; transition: opacity .4s ease; }
+
+/* the capability list beside the engine loop */
+.rgv .rgv-cycle li { transition: background .4s ease, padding .4s ease; cursor: default; }
+.rgv .rgv-cycle li.is-on, .rgv .rgv-cycle li:hover { background: rgba(9, 97, 64, .05); }
+.rgv .rgv-cycle li.is-on::before, .rgv .rgv-cycle li:hover::before { border-color: var(--rgv-forest); color: var(--rgv-forest); }
+
+/* stages: icon markers, a line that draws across, a gentle lift on hover */
+.rgv .rgv-step { padding-top: 76px; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.rgv .rgv-step::before { width: auto; height: auto; top: 16px; left: 64px; border: 0 !important; background: transparent !important; font-size: .9375rem; font-style: italic; color: var(--calm-muted) !important; }
+.rgv .rgv-step__ico { position: absolute; top: 0; left: 0; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(29, 35, 32, .35); background: var(--calm-paper); display: grid; place-items: center; color: var(--rgv-forest); z-index: 1; transition: background .4s ease, border-color .4s ease, color .4s ease, transform .5s cubic-bezier(.2,.7,.2,1); }
+.rgv .rgv-step__ico .rgv-ph { width: 22px; height: 22px; }
+.rgv .rgv-step:first-child .rgv-step__ico { border-color: var(--rgv-forest); }
+.rgv .rgv-step::after { top: 24px; left: 60px; transform-origin: left; transition: transform 1.2s cubic-bezier(.45,0,.2,1); transition-delay: calc(var(--dg-i, 0) * .18s + .3s); }
+.rgv .rgv-step:hover .rgv-step__ico { background: var(--rgv-forest); border-color: var(--rgv-forest); color: #fff; transform: translateY(-3px); }
+.rgv .rgv-step:hover .rgv-h3 { color: var(--rgv-forest); }
+@media (max-width: 760px) { .rgv .rgv-steps .rgv-step { padding-top: 0; padding-left: 68px; } .rgv .rgv-steps .rgv-step::before { top: -20px; left: 68px; } }
+.rgv .rgv-steps.rgv-steps--list .rgv-step { padding-top: 0; }
+
+/* founder -> leader -> specialists */
+.rgv .rgv-node__ico { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--rgv-line); display: grid; place-items: center; color: var(--rgv-forest); margin-bottom: 6px; transition: background .4s ease, color .4s ease, border-color .4s ease; }
+.rgv .rgv-node--lead .rgv-node__ico { border-color: var(--rgv-forest); }
+.rgv .rgv-node__ico .rgv-ph { width: 20px; height: 20px; }
+.rgv .rgv-node { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease; }
+.rgv .rgv-node:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -28px rgba(29, 35, 32, .45); }
+.rgv .rgv-node:hover .rgv-node__ico { background: var(--rgv-forest); border-color: var(--rgv-forest); color: #fff; }
+.rgv .rgv-wire { overflow: visible; }
+.rgv .rgv-wire::before { content: ""; position: absolute; top: -2.5px; left: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--rgv-forest); animation: dgWire 2.6s cubic-bezier(.45,0,.2,1) infinite; }
+@keyframes dgWire { 0% { left: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: calc(100% - 6px); opacity: 0; } }
+@media (max-width: 900px) { .rgv .rgv-wire::before { left: -2.5px; top: 0; animation-name: dgWireV; } @keyframes dgWireV { 0% { top: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: calc(100% - 6px); opacity: 0; } } }
+.rgv .rgv-spec .rgv-ph { width: 20px; height: 20px; color: var(--rgv-forest); flex: none; transition: transform .4s cubic-bezier(.2,.7,.2,1); }
+.rgv .rgv-spec { transition: padding .4s ease, color .4s ease; }
+.rgv .rgv-spec:hover { padding-left: 10px; color: var(--rgv-forest); }
+.rgv .rgv-spec:hover .rgv-ph { transform: scale(1.12); }
+
+/* which services, in which combination */
+.rgv .rgv-combo { transition: border-color .4s ease, transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease; }
+.rgv .rgv-combo:hover { border-color: var(--rgv-forest); transform: translateY(-3px); box-shadow: 0 18px 40px -28px rgba(29, 35, 32, .45); }
+.rgv .rgv-combo__pills span { transition: background .4s ease, color .4s ease, border-color .4s ease; }
+.rgv .rgv-combo:hover .rgv-combo__pills span.is-on { background: var(--rgv-forest); color: #fff; }
+
+/* arrival for the HTML infographics */
+.rgv .dg-wait:not(svg) > * { opacity: 0; transform: translateY(16px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--dg-i, 0) * .14s); }
+.rgv .dg-wait.is-live:not(svg) > * { opacity: 1; transform: none; }
+.rgv .rgv-steps.dg-wait .rgv-step::after { transform: scaleX(0); }
+.rgv .rgv-steps.dg-wait.is-live .rgv-step::after { transform: none; }
+.rgv .rgv-model.dg-wait > .rgv-wire { transform: scaleX(0); transform-origin: left; opacity: 1; }
+.rgv .rgv-model.dg-wait.is-live > .rgv-wire { transform: none; }
+
+.rgv .rgv-footer__bottom .rgv-credit { width: 100%; font-size: .75rem; }
+.rgv .rgv-footer__bottom .rgv-credit a { text-decoration: underline; text-underline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rgv .rgv-dg .dg-pulse, .rgv .rgv-dg .dg-traveller, .rgv .rgv-wire::before { display: none; }
+  .rgv .rgv-dg .dg-orbit, .rgv .rgv-dg .dg-rot { animation: none; }
+  .rgv .rgv-step, .rgv .rgv-node, .rgv .rgv-combo { transition: none; }
+}
+
+/* larger logo (client feedback) */
+.rgv-site-header .rgv-header__bar { min-height: 104px; }
+.rgv-site-header .rgv-header__logo img { height: 72px; }
+@media (max-width: 900px) { .rgv-site-header .rgv-header__bar { min-height: 80px; } .rgv-site-header .rgv-header__logo img { height: 52px; } }
