@@ -1232,3 +1232,13 @@
 .rgv .rgv-net__note { margin-top: 22px; }
 @media (max-width: 1000px) { .rgv .rgv-net { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 420px) { .rgv .rgv-net { grid-template-columns: 1fr; } }
+.rgv .rgv-w3__img--hero { align-self: center; box-shadow: 0 24px 60px -30px rgba(29,35,32,.35); }
+.rgv .rgv-phero__art.rgv-w3__img img { height: 100%; }
+.rgv .rgv-lead-card__photo--inset { position: relative; overflow: visible; }
+.rgv .rgv-inset { position: absolute; left: -18px; bottom: -18px; width: 34% !important; height: auto !important; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 5px solid #FBFAF6; box-shadow: 0 10px 30px -12px rgba(29,35,32,.4); }
+@media (max-width: 760px) { .rgv .rgv-inset { left: 10px; bottom: 10px; } }
+.rgv .rgv-w3-band { padding: 0; position: relative; overflow: hidden; background: #ECEAE3; }
+.rgv .rgv-w3-band img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rgv .rgv-work:has(.rgv-w3-band) .rgv-work__band { aspect-ratio: 16 / 9; }
+.rgv .rgv-phero__art.rgv-w3__img--hero { width: 100%; max-width: none; aspect-ratio: 16 / 9; height: auto; padding: 0; justify-self: stretch; }
+@media (min-width: 900px) { .rgv .rgv-phero__grid:has(.rgv-w3__img--hero) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); } }
